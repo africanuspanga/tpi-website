@@ -72,7 +72,7 @@ export async function FeaturedProjects() {
                 >
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
-                      src={project.hero_image_url || "/TPI IMAGE 1.jpeg"}
+                      src={project.hero_image_url || "/tpi-image-1.jpeg"}
                       alt={project.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

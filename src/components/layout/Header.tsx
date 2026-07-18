@@ -18,21 +18,19 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="container-tpi flex h-20 items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
+        <Link
+          href="/"
+          className="flex items-center"
+          aria-label="TPi Tanzania — home"
+        >
           <Image
-            src="/TPI LOGO.png"
+            src="/tpi-logo.png"
             alt="TPi Tanzania"
-            width={48}
-            height={48}
-            className="h-12 w-auto object-contain"
+            width={1448}
+            height={1086}
+            className="h-14 w-auto object-contain md:h-16"
             priority
           />
-          <div className="hidden sm:block">
-            <p className="text-lg font-bold leading-none text-navy">TPi</p>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-text">
-              Tanzania
-            </p>
-          </div>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-8">

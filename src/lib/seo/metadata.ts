@@ -23,7 +23,7 @@ export function buildMetadata(input: SeoInput = {}): Metadata {
     : defaultTitle;
   const description = input.description || defaultDescription;
   const canonical = input.canonical || (input.path ? `${siteUrl}${input.path}` : siteUrl);
-  const ogImage = input.ogImage || `${siteUrl}/TPI IMAGE 1.jpeg`;
+  const ogImage = input.ogImage || `${siteUrl}/tpi-image-1.jpeg`;
 
   return {
     title,

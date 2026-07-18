@@ -80,7 +80,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <section className="relative bg-navy text-white">
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src={project.hero_image_url || "/TPI IMAGE 1.jpeg"}
+            src={project.hero_image_url || "/tpi-image-1.jpeg"}
             alt={project.title}
             fill
             sizes="100vw"

@@ -9,7 +9,7 @@ import { TargetGroups } from "@/components/sections/TargetGroups";
 import { ImpactMetrics } from "@/components/sections/ImpactMetrics";
 import { SuccessStories } from "@/components/sections/SuccessStories";
 import { Partners } from "@/components/sections/Partners";
-import { NewsResources } from "@/components/sections/NewsResources";
+import { BlogHighlights } from "@/components/sections/BlogHighlights";
 import { SdgAlignment } from "@/components/sections/SdgAlignment";
 import { FinalCta } from "@/components/sections/FinalCta";
 
@@ -28,7 +28,7 @@ export default function HomePage() {
       <ImpactMetrics />
       <SuccessStories />
       <Partners />
-      <NewsResources />
+      <BlogHighlights />
       <SdgAlignment />
       <FinalCta />
     </>

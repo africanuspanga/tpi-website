@@ -111,7 +111,7 @@ export default async function NewsPage(props: {
                 >
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
-                      src={post.featured_image_url || "/TPI IMAGE 3.jpeg"}
+                      src={post.featured_image_url || "/tpi-image-3.jpeg"}
                       alt={post.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

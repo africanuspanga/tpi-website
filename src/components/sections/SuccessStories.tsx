@@ -37,7 +37,7 @@ export async function SuccessStories() {
               >
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <Image
-                    src={story.featured_image_url || "/TPI IMAGE 3.jpeg"}
+                    src={story.featured_image_url || "/tpi-image-3.jpeg"}
                     alt={story.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

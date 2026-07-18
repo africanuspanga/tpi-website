@@ -82,7 +82,7 @@ export default async function WhatWeDoPage() {
 
       {/* Hero */}
       <section className="relative bg-navy py-28 text-white lg:py-36">
-        <div className="absolute inset-0 bg-[url('/TPI IMAGE 1.jpeg')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-[url('/tpi-image-1.jpeg')] bg-cover bg-center opacity-20" />
         <div className="container-tpi relative z-10">
           <span className="label-eyebrow mb-4 block text-gold">What We Do</span>
           <h1 className="heading-display max-w-3xl text-4xl md:text-5xl lg:text-6xl">

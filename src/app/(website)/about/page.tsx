@@ -96,7 +96,7 @@ export default async function AboutPage() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl lg:aspect-square">
               <Image
-                src="/Tanzanian residents, women, youth and local leaders discussing community development..jpg"
+                src="/community-development-meeting.jpg"
                 alt="Community discussion in Tanzania"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"

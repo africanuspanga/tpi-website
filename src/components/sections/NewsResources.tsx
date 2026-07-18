@@ -68,7 +68,7 @@ export async function NewsResources() {
                   >
                     <div className="relative hidden h-24 w-24 shrink-0 overflow-hidden rounded-xl sm:block">
                       <Image
-                        src={post.featured_image_url || "/TPI IMAGE 1.jpeg"}
+                        src={post.featured_image_url || "/tpi-image-1.jpeg"}
                         alt={post.title}
                         fill
                         sizes="96px"
@@ -133,7 +133,7 @@ export async function NewsResources() {
                   >
                     <div className="relative hidden h-24 w-24 shrink-0 overflow-hidden rounded-xl sm:block">
                       <Image
-                        src={resource.cover_image_url || "/TPI IMAGE 4.jpeg"}
+                        src={resource.cover_image_url || "/tpi-image-4.jpeg"}
                         alt={resource.title}
                         fill
                         sizes="96px"

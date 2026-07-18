@@ -39,20 +39,20 @@ export function Footer() {
       <div className="container-tpi py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Link href="/" className="flex items-center gap-3 mb-6">
-              <Image
-                src="/TPI LOGO.png"
-                alt="TPi Tanzania"
-                width={56}
-                height={56}
-                className="h-14 w-auto object-contain"
-              />
-              <div>
-                <p className="text-xl font-bold leading-none">TPi</p>
-                <p className="text-xs font-semibold uppercase tracking-wider text-white/70">
-                  Tanzania
-                </p>
-              </div>
+            <Link
+              href="/"
+              className="mb-6 inline-flex"
+              aria-label="TPi Tanzania — home"
+            >
+              <span className="inline-flex rounded-2xl bg-white p-3 shadow-sm">
+                <Image
+                  src="/tpi-logo.png"
+                  alt="TPi Tanzania"
+                  width={1448}
+                  height={1086}
+                  className="h-16 w-auto object-contain"
+                />
+              </span>
             </Link>
             <p className="text-white/80 leading-relaxed max-w-sm mb-6">
               Advancing inclusive urban transformation, poverty reduction and

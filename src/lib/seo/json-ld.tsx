@@ -19,7 +19,7 @@ export function OrganizationJsonLd() {
         name: "TPi Tanzania",
         alternateName: "Tanzania Partnership Initiative",
         url: SITE_URL,
-        logo: `${SITE_URL}/TPI LOGO.png`,
+        logo: `${SITE_URL}/tpi-logo.png`,
         description:
           "TPi advances inclusive urban transformation, poverty reduction and climate resilience through community empowerment, partnerships and evidence-based solutions in Tanzania.",
         slogan: "Better Cities. Better Lives.",
@@ -88,7 +88,7 @@ export function ArticleJsonLd({
         headline: title,
         description,
         url: `${SITE_URL}${slug}`,
-        image: imageUrl || `${SITE_URL}/TPI IMAGE 1.jpeg`,
+        image: imageUrl || `${SITE_URL}/tpi-image-1.jpeg`,
         datePublished: publishedAt,
         dateModified: modifiedAt || publishedAt,
         author: {
@@ -100,7 +100,7 @@ export function ArticleJsonLd({
           name: "TPi Tanzania",
           logo: {
             "@type": "ImageObject",
-            url: `${SITE_URL}/TPI LOGO.png`,
+            url: `${SITE_URL}/tpi-logo.png`,
           },
         },
       }}

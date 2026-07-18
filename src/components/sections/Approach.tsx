@@ -1,4 +1,5 @@
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Reveal } from "@/components/ui/Reveal";
 
 const steps = [
   {
@@ -51,23 +52,24 @@ export function Approach() {
             <div className="absolute left-8 top-0 hidden h-full w-px bg-border md:block" />
 
             <div className="space-y-10">
-              {steps.map((step) => (
-                <div
+              {steps.map((step, index) => (
+                <Reveal
                   key={step.number}
+                  delay={index * 0.06}
                   className="relative flex flex-col gap-4 md:flex-row md:gap-10"
                 >
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-navy text-lg font-bold text-gold md:sticky md:top-28">
+                  <div className="z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-navy text-lg font-bold text-gold ring-4 ring-gold/15 md:sticky md:top-28">
                     {step.number}
                   </div>
-                  <div className="flex-1 rounded-2xl bg-soft-bg p-6 md:p-8">
+                  <div className="flex-1 rounded-2xl bg-soft-bg p-6 transition-colors hover:bg-soft-bg/70 md:p-8">
                     <h3 className="heading-display text-2xl text-navy">
                       {step.title}
                     </h3>
-                    <p className="mt-2 text-body/80 leading-relaxed">
+                    <p className="mt-2 leading-relaxed text-body/80">
                       {step.description}
                     </p>
                   </div>
-                </div>
+                </Reveal>
               ))}
             </div>
           </div>

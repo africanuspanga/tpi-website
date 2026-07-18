@@ -13,35 +13,35 @@ const groups = [
     title: "Residents of informal settlements",
     description:
       "Supporting people in unplanned neighbourhoods to secure services, tenure and a meaningful say in city decisions.",
-    image: "/A community water point.jpg",
+    image: "/community-water-point.jpg",
     icon: Users,
   },
   {
     title: "Women and youth",
     description:
       "Creating space, skills and economic opportunities for women and young people to lead urban change.",
-    image: "/Tanzanian women and young entrepreneurs running small businesses.jpg",
+    image: "/women-entrepreneurs.jpg",
     icon: Heart,
   },
   {
     title: "Persons with disabilities",
     description:
       "Ensuring urban planning, services and infrastructure are accessible and responsive to diverse needs.",
-    image: "/Tanzanian residents, women, youth and local leaders discussing community development..jpg",
+    image: "/community-development-meeting.jpg",
     icon: Accessibility,
   },
   {
     title: "Low-income urban households",
     description:
       "Working with families facing poverty to improve livelihoods, housing conditions and access to basic services.",
-    image: "/TPI IMAGE 2.jpeg",
+    image: "/tpi-image-2.jpeg",
     icon: Home,
   },
   {
     title: "Local governments and urban authorities",
     description:
       "Strengthening the capacity, data and processes that make public institutions more inclusive and accountable.",
-    image: "/Local Government Partnership.jpg",
+    image: "/local-government-partnership.jpg",
     icon: Landmark,
   },
 ];

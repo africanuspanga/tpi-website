@@ -60,7 +60,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
         <section className="relative bg-navy text-white">
           <div className="absolute inset-0 overflow-hidden">
             <Image
-              src={story.featured_image_url || "/TPI IMAGE 2.jpeg"}
+              src={story.featured_image_url || "/tpi-image-2.jpeg"}
               alt={story.title}
               fill
               sizes="100vw"

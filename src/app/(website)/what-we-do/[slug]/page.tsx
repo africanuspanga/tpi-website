@@ -84,7 +84,7 @@ export default async function ThematicAreaPage({
               className="object-cover opacity-20"
             />
           ) : (
-            <div className="absolute inset-0 bg-[url('/TPI IMAGE 1.jpeg')] bg-cover bg-center opacity-20" />
+            <div className="absolute inset-0 bg-[url('/tpi-image-1.jpeg')] bg-cover bg-center opacity-20" />
           )}
         </div>
         <div className="container-tpi relative z-10">
