@@ -18,27 +18,48 @@ const coreValues = [
   {
     title: "Dignity and Respect",
     description:
-      "Every person has the right to live in decent conditions and be treated with respect.",
+      "Every person has the right to live in decent conditions and to be treated with respect, regardless of income, gender, age, disability or social status.",
   },
   {
     title: "Equity and Inclusion",
     description:
-      "We prioritize the voices and needs of vulnerable and marginalized groups.",
+      "We prioritise the needs and voices of vulnerable groups, including women, children, youth, persons with disabilities, older persons and marginalised households.",
   },
   {
     title: "Community Participation",
     description:
-      "Communities are central to planning, implementation, monitoring and learning.",
+      "Communities are central to planning, implementation, monitoring and learning, so that interventions respond to real needs and are locally owned.",
   },
   {
     title: "Accountability and Transparency",
     description:
-      "We are committed to ethical practice, openness and responsible use of resources.",
+      "We are committed to the responsible use of resources, ethical practice, openness and accountability to communities, partners, donors and public institutions.",
   },
   {
     title: "Partnership and Collaboration",
     description:
-      "We work with public institutions, civil society, communities, development partners, the private sector and research institutions.",
+      "We work with government authorities, civil society organisations, communities, development partners, private sector actors and research institutions to achieve greater impact.",
+  },
+];
+
+const thematicAreas = [
+  {
+    title: "Inclusive Urban Transformation",
+    description:
+      "Making cities inclusive, safe and well-governed — so residents of informal settlements and vulnerable groups can access services, opportunities and a voice in decisions.",
+    accent: "bg-urban-blue",
+  },
+  {
+    title: "Poverty Reduction",
+    description:
+      "Expanding livelihoods, economic inclusion and access to basic services for low-income and marginalised urban households.",
+    accent: "bg-gold",
+  },
+  {
+    title: "Climate Resilience",
+    description:
+      "Helping communities and local governments prepare for, adapt to and withstand climate shocks through sustainable, climate-responsive solutions.",
+    accent: "bg-poverty-green",
   },
 ];
 
@@ -153,6 +174,43 @@ export default async function AboutPage() {
                 <p className="mt-3 text-body/80">{value.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Core Thematic Areas */}
+      <section className="bg-soft-bg py-20 lg:py-28">
+        <div className="container-tpi">
+          <SectionHeader
+            eyebrow="Our Core Thematic Areas"
+            heading="Three interconnected areas of change."
+            align="center"
+            className="mx-auto mb-16"
+          />
+          <div className="grid gap-8 md:grid-cols-3">
+            {thematicAreas.map((area, index) => (
+              <div
+                key={area.title}
+                className="flex flex-col rounded-2xl bg-white p-8 shadow-sm ring-1 ring-border/60"
+              >
+                <span className={`mb-6 inline-block h-1.5 w-16 ${area.accent}`} />
+                <span className="text-5xl font-bold text-border/60">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 className="heading-display mt-4 text-2xl text-navy">
+                  {area.title}
+                </h3>
+                <p className="mt-3 text-body/80">{area.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Button asChild className="bg-navy text-white hover:bg-navy/90">
+              <Link href="/what-we-do">
+                See how we deliver this
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

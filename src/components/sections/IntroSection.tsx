@@ -12,14 +12,15 @@ export function IntroSection() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <Reveal>
             <SectionHeader
-              eyebrow="Who We Are"
-              heading="Cities should work for everyone."
-              body="TPi Tanzania is a learning and action organisation dedicated to
-              inclusive urban development. We work with residents of informal
-              settlements, women, youth, people with disabilities, low-income
-              households and local governments to co-design solutions that
-              improve access to services, livelihoods, climate resilience and
-              voice in decision-making."
+              eyebrow="Our Conviction"
+              heading="The living conditions in our urban poor communities are unacceptable."
+              body="The narrative of poverty has shifted. Mass urban migration is
+              outpacing infrastructure, turning cities into the new epicentres of
+              severe marginalisation — overpopulated, underserved, and struggling
+              to provide the basic jobs, hygiene and safety every person
+              deserves. Through evidence-based programming, strategic
+              partnerships and community empowerment, TPi drives inclusive,
+              systemic change across Tanzania's cities."
             />
             <div className="mt-8 flex flex-wrap gap-4">
               <Button asChild className="bg-navy text-white hover:bg-navy/90">

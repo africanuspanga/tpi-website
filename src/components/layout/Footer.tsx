@@ -9,23 +9,17 @@ import {
 } from "@/components/ui/SocialIcons";
 
 const footerLinks = {
-  organization: [
-    { label: "About TPi", href: "/about" },
+  explore: [
+    { label: "About", href: "/about" },
     { label: "What We Do", href: "/what-we-do" },
+    { label: "Resources", href: "/resources" },
+    { label: "Events", href: "/events" },
+  ],
+  organization: [
     { label: "Our Team", href: "/about#team" },
     { label: "Partners", href: "/partners" },
-  ],
-  work: [
-    { label: "Projects", href: "/projects" },
-    { label: "Impact", href: "/impact" },
-    { label: "Resources", href: "/resources" },
-    { label: "News", href: "/news" },
-  ],
-  engage: [
     { label: "Get Involved", href: "/get-involved" },
     { label: "Contact", href: "/contact" },
-    { label: "Careers", href: "/contact?enquiry=Careers" },
-    { label: "Media Enquiries", href: "/contact?enquiry=Media%20enquiry" },
   ],
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy" },
@@ -44,15 +38,13 @@ export function Footer() {
               className="mb-6 inline-flex"
               aria-label="TPi Tanzania — home"
             >
-              <span className="inline-flex rounded-2xl bg-white p-3 shadow-sm">
-                <Image
-                  src="/tpi-logo.png"
-                  alt="TPi Tanzania"
-                  width={1448}
-                  height={1086}
-                  className="h-16 w-auto object-contain"
-                />
-              </span>
+              <Image
+                src="/tpi-logo.png"
+                alt="TPi Tanzania"
+                width={1448}
+                height={1086}
+                className="h-20 w-auto object-contain brightness-0 invert"
+              />
             </Link>
             <p className="text-white/80 leading-relaxed max-w-sm mb-6">
               Advancing inclusive urban transformation, poverty reduction and
@@ -78,6 +70,22 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
+            <h4 className="font-semibold mb-4 text-white">Explore</h4>
+            <ul className="space-y-3">
+              {footerLinks.explore.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/70 hover:text-gold transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="lg:col-span-3">
             <h4 className="font-semibold mb-4 text-white">Organization</h4>
             <ul className="space-y-3">
               {footerLinks.organization.map((link) => (
@@ -93,39 +101,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-2">
-            <h4 className="font-semibold mb-4 text-white">Our Work</h4>
-            <ul className="space-y-3">
-              {footerLinks.work.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/70 hover:text-gold transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-2">
-            <h4 className="font-semibold mb-4 text-white">Engage</h4>
-            <ul className="space-y-3">
-              {footerLinks.engage.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/70 hover:text-gold transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <h4 className="font-semibold mb-4 text-white">Contact</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm text-white/70">

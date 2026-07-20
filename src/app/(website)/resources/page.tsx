@@ -16,13 +16,18 @@ export const metadata = buildMetadata({
 
 const resourceTypes = [
   { key: "report", label: "Reports" },
-  { key: "policy_brief", label: "Policy Briefs" },
-  { key: "research", label: "Research" },
+  { key: "policy_brief", label: "Publications" },
+  { key: "research", label: "Analysis" },
   { key: "toolkit", label: "Toolkits" },
   { key: "case_study", label: "Case Studies" },
   { key: "video", label: "Videos" },
   { key: "other", label: "Other" },
 ];
+
+// Primary browse categories for the Resources section.
+const resourceFilters = resourceTypes.filter((t) =>
+  ["report", "policy_brief", "research"].includes(t.key)
+);
 
 function typeLabel(type: string) {
   return resourceTypes.find((t) => t.key === type)?.label || type;
@@ -52,8 +57,9 @@ export default async function ResourcesPage(props: {
             Evidence for better cities.
           </h1>
           <p className="body-large mt-6 max-w-2xl text-white/80">
-            Explore our reports, policy briefs, research and practical toolkits
-            supporting inclusive and climate-responsive urban development.
+            Explore our reports, publications and analysis — plus stories of
+            change and the impact of our work advancing inclusive and
+            climate-responsive urban development.
           </p>
         </div>
       </section>
@@ -73,7 +79,7 @@ export default async function ResourcesPage(props: {
             >
               All
             </Link>
-            {resourceTypes.map((t) => (
+            {resourceFilters.map((t) => (
               <Link
                 key={t.key}
                 href={`/resources?type=${t.key}`}
@@ -149,6 +155,48 @@ export default async function ResourcesPage(props: {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Stories of Change & Impacts */}
+      <section className="bg-soft-bg py-20 lg:py-28">
+        <div className="container-tpi">
+          <div className="grid gap-6 md:grid-cols-2">
+            <Link
+              href="/impact#stories"
+              className="group flex flex-col justify-between rounded-2xl bg-navy p-8 text-white transition-transform hover:-translate-y-1 md:p-10"
+            >
+              <div>
+                <span className="label-eyebrow mb-4 block text-gold">
+                  Stories of Change
+                </span>
+                <h3 className="heading-display text-2xl text-white md:text-3xl">
+                  Real change, told through the people at the heart of our work.
+                </h3>
+              </div>
+              <span className="mt-6 inline-flex items-center gap-2 font-medium text-gold">
+                Read the stories
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+            <Link
+              href="/impact#metrics"
+              className="group flex flex-col justify-between rounded-2xl bg-white p-8 ring-1 ring-border/60 transition-transform hover:-translate-y-1 md:p-10"
+            >
+              <div>
+                <span className="label-eyebrow mb-4 block text-urban-blue">
+                  Impacts
+                </span>
+                <h3 className="heading-display text-2xl text-navy md:text-3xl">
+                  The measurable difference our work makes in urban communities.
+                </h3>
+              </div>
+              <span className="mt-6 inline-flex items-center gap-2 font-medium text-navy">
+                See our impact
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
     </>

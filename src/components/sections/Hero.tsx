@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
 
 const floatingLabels = [
-  "Inclusive Cities",
+  "Inclusive Urban Transformation",
   "Poverty Reduction",
   "Climate Resilience",
 ];
@@ -78,9 +78,10 @@ export function Hero() {
             variants={item}
             className="body-large mt-8 max-w-2xl text-lg text-white/85 md:text-xl"
           >
-            TPi Tanzania partners with communities, local governments and allies
-            to make cities more inclusive, resilient and just — so every resident
-            can thrive.
+            Mass urban migration is outpacing infrastructure, turning cities into
+            the new epicentres of severe marginalisation. TPi drives inclusive,
+            systemic change — so every urban resident can live in dignity, safety
+            and climate resilience.
           </motion.p>
 
           <motion.div variants={item} className="mt-10 flex flex-wrap gap-4">

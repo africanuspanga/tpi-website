@@ -5,7 +5,39 @@ import { getThematicAreas, getFocusItems } from "@/lib/data/queries";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { BreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { cn } from "@/lib/utils";
+import { Layers, Briefcase, MapPin, Target, ArrowRight } from "lucide-react";
 import type { ThematicArea } from "@/types/supabase";
+
+const workAreas = [
+  {
+    title: "Programs",
+    description:
+      "Our thematic programmes across inclusive cities, poverty reduction and climate resilience.",
+    href: "/what-we-do#programs",
+    Icon: Layers,
+  },
+  {
+    title: "Projects",
+    description:
+      "The initiatives we deliver with communities and local partners on the ground.",
+    href: "/projects",
+    Icon: Briefcase,
+  },
+  {
+    title: "Coverage",
+    description:
+      "Where we work — the urban centres and communities we partner with across Tanzania.",
+    href: "/what-we-do#coverage",
+    Icon: MapPin,
+  },
+  {
+    title: "Focus",
+    description:
+      "The specific focus areas that shape each programme and guide our interventions.",
+    href: "/what-we-do#programs",
+    Icon: Target,
+  },
+];
 
 export const metadata = buildMetadata({
   title: "What We Do",
@@ -95,18 +127,49 @@ export default async function WhatWeDoPage() {
         </div>
       </section>
 
-      {/* Thematic areas */}
-      <section className="bg-white py-20 lg:py-28">
+      {/* Our Work overview */}
+      <section className="bg-white py-16 lg:py-20">
         <div className="container-tpi">
           <SectionHeader
-            eyebrow="Programmes"
+            eyebrow="Our Work"
+            heading="How our work is organised."
+            align="center"
+            className="mx-auto mb-12"
+          />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {workAreas.map(({ title, description, href, Icon }) => (
+              <Link
+                key={title}
+                href={href}
+                className="group flex flex-col rounded-2xl bg-soft-bg p-6 ring-1 ring-border/60 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-navy text-gold">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <h3 className="heading-display text-lg text-navy">{title}</h3>
+                <p className="mt-2 flex-1 text-sm text-body/80">{description}</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-navy transition-colors group-hover:text-urban-blue">
+                  Explore
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Programs / Thematic areas */}
+      <section id="programs" className="scroll-mt-28 bg-soft-bg py-20 lg:py-28">
+        <div className="container-tpi">
+          <SectionHeader
+            eyebrow="Programs & Focus"
             heading="Our thematic areas"
             align="center"
             className="mx-auto mb-16"
           />
 
           {areas.length === 0 ? (
-            <div className="rounded-2xl bg-soft-bg py-16 text-center">
+            <div className="rounded-2xl bg-white py-16 text-center">
               <p className="text-muted-text">
                 Thematic areas will appear here once published.
               </p>
@@ -117,7 +180,7 @@ export default async function WhatWeDoPage() {
                 <div
                   key={area.id}
                   className={cn(
-                    "flex flex-col rounded-2xl border-t-4 bg-soft-bg p-8",
+                    "flex flex-col rounded-2xl border-t-4 bg-white p-8 shadow-sm ring-1 ring-border/40",
                     accentColorClass(area.accent_color)
                   )}
                 >
@@ -147,6 +210,64 @@ export default async function WhatWeDoPage() {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Coverage */}
+      <section id="coverage" className="scroll-mt-28 bg-white py-20 lg:py-28">
+        <div className="container-tpi">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+            <div>
+              <SectionHeader
+                eyebrow="Coverage"
+                heading="Where we work."
+                body="TPi works across Tanzania's fast-growing urban centres — partnering with local governments, communities and civil society in the areas where marginalisation, poverty and climate vulnerability are most acute. Our footprint grows with each project as we reach more informal settlements and underserved neighbourhoods."
+              />
+              <div className="mt-8">
+                <Button asChild className="bg-navy text-white hover:bg-navy/90">
+                  <Link href="/projects">
+                    See our projects
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                {
+                  Icon: MapPin,
+                  title: "Urban centres",
+                  body: "Focused on Tanzania's rapidly urbanising cities and towns.",
+                },
+                {
+                  Icon: Briefcase,
+                  title: "Local partnerships",
+                  body: "Delivered with local governments and community institutions.",
+                },
+                {
+                  Icon: Layers,
+                  title: "Informal settlements",
+                  body: "Prioritising underserved and marginalised neighbourhoods.",
+                },
+                {
+                  Icon: Target,
+                  title: "Community-led",
+                  body: "Co-designed with the residents we work alongside.",
+                },
+              ].map(({ Icon, title, body }) => (
+                <div
+                  key={title}
+                  className="rounded-2xl bg-soft-bg p-6 ring-1 ring-border/60"
+                >
+                  <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-navy text-gold">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="font-semibold text-navy">{title}</h3>
+                  <p className="mt-1 text-sm text-body/80">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </>

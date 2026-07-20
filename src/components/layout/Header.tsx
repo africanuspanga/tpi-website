@@ -7,52 +7,52 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "What We Do", href: "/what-we-do" },
-  { label: "Projects", href: "/projects" },
-  { label: "Impact", href: "/impact" },
   { label: "Resources", href: "/resources" },
-  { label: "News", href: "/news" },
-  { label: "Contact", href: "/contact" },
+  { label: "Events", href: "/events" },
 ];
 
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="container-tpi flex h-20 items-center justify-between">
-        <Link
-          href="/"
-          className="flex items-center"
-          aria-label="TPi Tanzania — home"
-        >
-          <Image
-            src="/tpi-logo.png"
-            alt="TPi Tanzania"
-            width={1448}
-            height={1086}
-            className="h-14 w-auto object-contain md:h-16"
-            priority
-          />
-        </Link>
+      <div className="container-tpi flex h-24 items-center justify-between">
+        {/* Left: primary navigation (desktop) + menu trigger (mobile) */}
+        <div className="flex items-center gap-8">
+          <MobileMenu items={navItems} />
+          <nav className="hidden items-center gap-8 lg:flex">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm font-semibold uppercase tracking-wide text-body/80 transition-colors hover:text-navy"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
 
-        <nav className="hidden lg:flex items-center gap-8">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-body/80 transition-colors hover:text-navy"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
+        {/* Right: call to action + logo */}
+        <div className="flex items-center gap-5">
           <Button
             asChild
-            className="hidden sm:inline-flex bg-navy hover:bg-navy/90 text-white"
+            className="hidden bg-navy text-white hover:bg-navy/90 sm:inline-flex"
           >
             <Link href="/get-involved">Partner With TPi</Link>
           </Button>
-          <MobileMenu items={navItems} />
+          <Link
+            href="/"
+            className="flex items-center"
+            aria-label="TPi Tanzania — home"
+          >
+            <Image
+              src="/tpi-logo.png"
+              alt="TPi Tanzania"
+              width={1448}
+              height={1086}
+              className="h-16 w-auto object-contain md:h-20"
+              priority
+            />
+          </Link>
         </div>
       </div>
     </header>

@@ -44,7 +44,7 @@ export default async function ImpactPage() {
       </section>
 
       {/* Metrics */}
-      <section className="bg-white py-20 lg:py-28">
+      <section id="metrics" className="scroll-mt-28 bg-white py-20 lg:py-28">
         <div className="container-tpi">
           <h2 className="heading-display text-center text-3xl text-navy md:text-4xl">
             Impact in numbers
@@ -84,7 +84,7 @@ export default async function ImpactPage() {
       </section>
 
       {/* Success stories */}
-      <section className="bg-soft-bg py-20 lg:py-28">
+      <section id="stories" className="scroll-mt-28 bg-soft-bg py-20 lg:py-28">
         <div className="container-tpi">
           <h2 className="heading-display text-3xl text-navy md:text-4xl">
             Success stories
