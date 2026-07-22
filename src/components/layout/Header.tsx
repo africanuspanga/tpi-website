@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { MobileMenu } from "./MobileMenu";
 
 const navItems = [
@@ -31,14 +30,8 @@ export function Header() {
           </nav>
         </div>
 
-        {/* Right: call to action + logo */}
+        {/* Right: logo */}
         <div className="flex items-center gap-5">
-          <Button
-            asChild
-            className="hidden bg-navy text-white hover:bg-navy/90 sm:inline-flex"
-          >
-            <Link href="/get-involved">Partner With TPi</Link>
-          </Button>
           <Link
             href="/"
             className="flex items-center"

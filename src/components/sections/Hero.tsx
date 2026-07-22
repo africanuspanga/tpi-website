@@ -76,7 +76,7 @@ export function Hero() {
 
           <motion.p
             variants={item}
-            className="body-large mt-8 max-w-2xl text-lg text-white/85 md:text-xl"
+            className="mt-8 max-w-2xl text-lg leading-relaxed text-white md:text-xl"
           >
             Mass urban migration is outpacing infrastructure, turning cities into
             the new epicentres of severe marginalisation. TPi drives inclusive,
