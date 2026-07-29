@@ -96,11 +96,11 @@ export default async function ThematicAreaPage({
           >
             Thematic Area
           </Badge>
-          <h1 className="heading-display max-w-3xl text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="heading-display max-w-3xl text-4xl text-white md:text-5xl lg:text-6xl">
             {area.name}
           </h1>
           {area.short_description && (
-            <p className="body-large mt-6 max-w-2xl text-white/80">
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
               {area.short_description}
             </p>
           )}

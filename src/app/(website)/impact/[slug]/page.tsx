@@ -84,7 +84,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
                 {area.name}
               </Badge>
             )}
-            <h1 className="heading-display max-w-4xl text-4xl md:text-5xl lg:text-6xl">
+            <h1 className="heading-display max-w-4xl text-4xl text-white md:text-5xl lg:text-6xl">
               {story.title}
             </h1>
             {story.location && (

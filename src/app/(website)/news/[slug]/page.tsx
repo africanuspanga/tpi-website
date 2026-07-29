@@ -87,7 +87,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <Badge className="mb-4 bg-gold text-navy hover:bg-gold">
               {typeLabels[post.post_type] || post.post_type}
             </Badge>
-            <h1 className="heading-display max-w-4xl text-3xl md:text-4xl lg:text-5xl">
+            <h1 className="heading-display max-w-4xl text-3xl text-white md:text-4xl lg:text-5xl">
               {post.title}
             </h1>
             <div className="mt-6 flex flex-wrap gap-6 text-sm text-white/80">

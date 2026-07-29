@@ -67,7 +67,7 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
           <Badge className="mb-4 bg-gold text-navy hover:bg-gold">
             {typeLabels[resource.resource_type] || "Resource"}
           </Badge>
-          <h1 className="heading-display max-w-4xl text-3xl md:text-4xl lg:text-5xl">
+          <h1 className="heading-display max-w-4xl text-3xl text-white md:text-4xl lg:text-5xl">
             {resource.title}
           </h1>
         </div>

@@ -117,10 +117,10 @@ export default async function WhatWeDoPage() {
         <div className="absolute inset-0 bg-[url('/tpi-image-1.jpeg')] bg-cover bg-center opacity-20" />
         <div className="container-tpi relative z-10">
           <span className="label-eyebrow mb-4 block text-gold">What We Do</span>
-          <h1 className="heading-display max-w-3xl text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="heading-display max-w-3xl text-4xl text-white md:text-5xl lg:text-6xl">
             Inclusive cities, poverty reduction and climate resilience.
           </h1>
-          <p className="body-large mt-6 max-w-2xl text-white/80">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
             Our programmes connect people, evidence and institutions to address
             the urban challenges that matter most to excluded residents.
           </p>

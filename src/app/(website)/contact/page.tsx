@@ -31,10 +31,10 @@ export default async function ContactPage(props: {
       <section className="bg-navy py-28 text-white lg:py-36">
         <div className="container-tpi">
           <span className="label-eyebrow mb-4 block text-gold">Contact</span>
-          <h1 className="heading-display text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">
             Start a conversation with TPi.
           </h1>
-          <p className="body-large mt-6 max-w-2xl text-white/80">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
             Whether you are a community, a local authority, a development partner
             or a researcher, we would like to hear from you. Send us a message and
             our team will respond promptly.

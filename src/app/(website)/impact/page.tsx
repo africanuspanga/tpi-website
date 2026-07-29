@@ -33,10 +33,10 @@ export default async function ImpactPage() {
       <section className="bg-navy py-28 text-white lg:py-36">
         <div className="container-tpi">
           <span className="label-eyebrow mb-4 block text-gold">Our Impact</span>
-          <h1 className="heading-display text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">
             Change is visible in people, communities and institutions.
           </h1>
-          <p className="body-large mt-6 max-w-2xl text-white/80">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
             We measure success not by activities delivered, but by the lasting
             difference our work makes in the lives of urban residents.
           </p>

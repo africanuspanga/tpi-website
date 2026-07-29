@@ -73,10 +73,10 @@ export default function GetInvolvedPage() {
           <span className="label-eyebrow mb-4 block text-gold">
             Get Involved
           </span>
-          <h1 className="heading-display text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">
             Let us build more inclusive and resilient cities together.
           </h1>
-          <p className="body-large mt-6 max-w-2xl text-white/80">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
             Partner with TPi to support communities, strengthen institutions and
             develop practical solutions for Tanzania&apos;s urban future.
           </p>

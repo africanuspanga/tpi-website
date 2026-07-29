@@ -61,10 +61,11 @@ export function Hero() {
       </AnimatePresence>
 
       {/* Legibility overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/25 to-navy/40" />
+      <div className="absolute inset-0 bg-navy/40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-navy/60 via-navy/30 to-navy/70" />
 
       {/* Caption */}
-      <div className="container-tpi absolute inset-x-0 bottom-0 z-10 pb-24 lg:pb-28">
+      <div className="container-tpi absolute inset-0 z-10 flex flex-col items-center justify-center text-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={slide.title}
@@ -72,19 +73,20 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: reduce ? 0 : -12 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col items-center"
           >
             <span className="mb-5 block h-px w-12 bg-gold" />
-            <h1 className="heading-display max-w-4xl text-4xl leading-[1.05] text-white md:text-6xl lg:text-7xl">
+            <h1 className="heading-display max-w-5xl text-4xl leading-[1.08] text-white drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl">
               {slide.title}
             </h1>
-            <p className="mt-4 text-lg text-white/85 md:text-xl">
+            <p className="mx-auto mt-4 max-w-xl text-base text-white/90 drop-shadow sm:text-lg md:text-xl">
               {slide.description}
             </p>
           </motion.div>
         </AnimatePresence>
 
         {/* Slide indicators */}
-        <div className="mt-10 flex gap-2">
+        <div className="mt-10 flex justify-center gap-2">
           {slides.map((item, itemIndex) => (
             <button
               key={item.src}

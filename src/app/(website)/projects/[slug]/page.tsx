@@ -109,7 +109,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               {statusLabel(project.project_status)}
             </Badge>
           </div>
-          <h1 className="heading-display mt-6 max-w-4xl text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="heading-display mt-6 max-w-4xl text-4xl text-white md:text-5xl lg:text-6xl">
             {project.title}
           </h1>
           <div className="mt-6 flex flex-wrap gap-6 text-white/80">
