@@ -69,7 +69,7 @@ export async function createTeamMember(values: TeamMemberFormValues) {
 
   await audit("create", data.id, undefined, values);
   revalidatePath("/admin/team");
-  revalidatePath("/team");
+  revalidatePath("/about");
   return { success: true, id: data.id };
 }
 
@@ -89,7 +89,7 @@ export async function updateTeamMember(id: string, values: TeamMemberFormValues)
 
   await audit("update", id, existing, values);
   revalidatePath("/admin/team");
-  revalidatePath("/team");
+  revalidatePath("/about");
   return { success: true };
 }
 
@@ -108,6 +108,6 @@ export async function deleteTeamMember(id: string) {
 
   await audit("delete", id, existing, undefined);
   revalidatePath("/admin/team");
-  revalidatePath("/team");
+  revalidatePath("/about");
   return { success: true };
 }

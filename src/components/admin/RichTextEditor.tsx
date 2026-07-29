@@ -39,8 +39,11 @@ export function RichTextEditor({
       Placeholder.configure({ placeholder }),
     ],
     content: value,
+    // Avoid rendering the editor during SSR; the forms also load this
+    // component via next/dynamic with ssr: false.
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      onChange(editor.isEmpty ? "" : editor.getHTML());
     },
   });
 

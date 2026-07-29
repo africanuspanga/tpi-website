@@ -27,14 +27,15 @@ A premium institutional website and lightweight content management platform for 
    SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
    ```
 
-3. Run the database migration in Supabase SQL Editor:
-   - Open `supabase/migrations/0001_tpi_website_cms.sql`
-   - Run it against your Supabase project
+3. Run the database migrations in the Supabase SQL Editor, in order:
+   - `supabase/migrations/0001_tpi_website_cms.sql` (schema, RLS, storage buckets, seed data)
+   - `supabase/migrations/0002_backend_fixes.sql` (indexes, newsletter resubscribe policy)
 
 4. Create the first super administrator:
-   - Create a user in Supabase Authentication
-   - Copy the user UUID
-   - Run the SQL snippet from the brief (section 11) to insert into `public.admin_users`
+   - Create a user in Supabase Authentication (Authentication → Users → Add user)
+   - Open `supabase/scripts/make-first-admin.sql`, replace `you@example.com`
+     with that user's email, and run it in the SQL Editor
+   - Sign in at `/admin/login`
 
 5. Start the development server:
    ```bash

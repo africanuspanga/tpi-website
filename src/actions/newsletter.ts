@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   newsletterSchema,
   type NewsletterFormValues,
@@ -40,19 +41,33 @@ export async function subscribeNewsletter(values: NewsletterFormValues) {
     };
   }
 
-  const supabase = await createClient();
-  const { error } = await supabase.from("newsletter_subscribers").upsert(
-    {
+  // Re-subscribing must also work for existing emails. The anon role only
+  // has an INSERT policy, so use the service role when available (RLS-safe,
+  // server-side only); otherwise fall back to a plain insert and treat a
+  // duplicate email as an existing subscription.
+  let error: { code?: string; message: string } | null = null;
+  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    const admin = createAdminClient();
+    ({ error } = await admin.from("newsletter_subscribers").upsert(
+      {
+        email: data.email.toLowerCase(),
+        full_name: data.full_name || null,
+        is_active: true,
+        unsubscribed_at: null,
+      },
+      { onConflict: "email" }
+    ));
+  } else {
+    const supabase = await createClient();
+    ({ error } = await supabase.from("newsletter_subscribers").insert({
       email: data.email.toLowerCase(),
       full_name: data.full_name || null,
-      is_active: true,
-      unsubscribed_at: null,
-    },
-    { onConflict: "email" }
-  );
+    }));
+    if (error?.code === "23505") error = null; // already subscribed
+  }
 
   if (error) {
-    console.error("[Newsletter] Upsert error:", error);
+    console.error("[Newsletter] Subscribe error:", error);
     return {
       success: false,
       message: "Something went wrong. Please try again later.",

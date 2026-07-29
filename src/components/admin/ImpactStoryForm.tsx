@@ -1,8 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
-import { Controller, useForm, type Resolver } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -17,46 +16,59 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { postSchema, type PostFormValues } from "@/lib/validation/admin";
+import {
+  impactStorySchema,
+  type ImpactStoryFormValues,
+} from "@/lib/validation/impact";
 import { generateSlug } from "@/lib/utils/slugs";
-import { createPost, updatePost, deletePost } from "@/actions/admin/posts";
-import type { Post } from "@/types/supabase";
+import {
+  createImpactStory,
+  updateImpactStory,
+  deleteImpactStory,
+} from "@/actions/admin/impact";
+import type { ImpactStory } from "@/types/supabase";
 
-// TipTap needs the browser; never render it on the server.
-const RichTextEditor = dynamic(
-  () =>
-    import("@/components/admin/RichTextEditor").then((m) => m.RichTextEditor),
-  { ssr: false }
-);
+export interface ImpactStoryOption {
+  id: string;
+  label: string;
+}
 
-export function PostForm({ post }: { post?: Post | null }) {
+const NONE_VALUE = "__none__";
+
+export function ImpactStoryForm({
+  story,
+  projects = [],
+  thematicAreas = [],
+}: {
+  story?: ImpactStory | null;
+  projects?: ImpactStoryOption[];
+  thematicAreas?: ImpactStoryOption[];
+}) {
   const router = useRouter();
-  const isEdit = Boolean(post);
+  const isEdit = Boolean(story);
 
   const {
     register,
-    control,
     handleSubmit,
     watch,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<PostFormValues>({
-    resolver: zodResolver(postSchema) as Resolver<PostFormValues>,
+  } = useForm<ImpactStoryFormValues>({
+    resolver: zodResolver(impactStorySchema) as Resolver<ImpactStoryFormValues>,
     defaultValues: {
-      title: post?.title || "",
-      slug: post?.slug || "",
-      post_type: post?.post_type || "news",
-      excerpt: post?.excerpt || "",
-      body: post?.body || "",
-      featured_image_url: post?.featured_image_url || "",
-      author_name: post?.author_name || "",
-      event_date: post?.event_date ? post.event_date.slice(0, 10) : "",
-      location: post?.location || "",
-      status: post?.status || "draft",
-      is_featured: post?.is_featured || false,
-      published_at: post?.published_at ? post.published_at.slice(0, 10) : "",
-      seo_title: post?.seo_title || "",
-      seo_description: post?.seo_description || "",
+      title: story?.title || "",
+      slug: story?.slug || "",
+      excerpt: story?.excerpt || "",
+      body: story?.body || "",
+      location: story?.location || "",
+      featured_image_url: story?.featured_image_url || "",
+      project_id: story?.project_id || "",
+      thematic_area_id: story?.thematic_area_id || "",
+      status: story?.status || "draft",
+      is_featured: story?.is_featured || false,
+      published_at: story?.published_at ? story.published_at.slice(0, 10) : "",
+      seo_title: story?.seo_title || "",
+      seo_description: story?.seo_description || "",
     },
   });
 
@@ -66,25 +78,25 @@ export function PostForm({ post }: { post?: Post | null }) {
     }
   }
 
-  async function onSubmit(values: PostFormValues) {
+  async function onSubmit(values: ImpactStoryFormValues) {
     const result = isEdit
-      ? await updatePost(post!.id, values)
-      : await createPost(values);
+      ? await updateImpactStory(story!.id, values)
+      : await createImpactStory(values);
     if (result.success) {
-      toast.success(isEdit ? "Article updated." : "Article created.");
-      router.push("/admin/posts");
+      toast.success(isEdit ? "Story updated." : "Story created.");
+      router.push("/admin/impact");
       router.refresh();
     } else {
-      toast.error(result.message || "Failed to save article.");
+      toast.error(result.message || "Failed to save story.");
     }
   }
 
   async function onDelete() {
-    if (!post || !window.confirm("Delete this article?")) return;
-    const result = await deletePost(post.id);
+    if (!story || !window.confirm("Delete this impact story?")) return;
+    const result = await deleteImpactStory(story.id);
     if (result.success) {
-      toast.success("Article deleted.");
-      router.push("/admin/posts");
+      toast.success("Story deleted.");
+      router.push("/admin/impact");
       router.refresh();
     } else {
       toast.error(result.message || "Failed to delete.");
@@ -112,30 +124,11 @@ export function PostForm({ post }: { post?: Post | null }) {
 
       <div className="grid gap-6 md:grid-cols-3">
         <div className="space-y-2">
-          <Label>Type</Label>
-          <Select
-            value={watch("post_type")}
-            onValueChange={(v) =>
-              setValue("post_type", v as PostFormValues["post_type"])
-            }
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="news">News</SelectItem>
-              <SelectItem value="insight">Insight</SelectItem>
-              <SelectItem value="event">Event</SelectItem>
-              <SelectItem value="announcement">Announcement</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-2">
           <Label>Status</Label>
           <Select
             value={watch("status")}
             onValueChange={(v) =>
-              setValue("status", v as PostFormValues["status"])
+              setValue("status", v as ImpactStoryFormValues["status"])
             }
           >
             <SelectTrigger>
@@ -147,6 +140,10 @@ export function PostForm({ post }: { post?: Post | null }) {
               <SelectItem value="archived">Archived</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="published_at">Publish date</Label>
+          <Input id="published_at" type="date" {...register("published_at")} />
         </div>
         <div className="flex items-end gap-2 pb-2">
           <Checkbox
@@ -166,40 +163,60 @@ export function PostForm({ post }: { post?: Post | null }) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="body">Body</Label>
-        <Controller
-          control={control}
-          name="body"
-          render={({ field }) => (
-            <RichTextEditor
-              value={field.value ?? ""}
-              onChange={field.onChange}
-              placeholder="Write the article body..."
-            />
-          )}
-        />
+        <Label htmlFor="body">Body (HTML supported)</Label>
+        <Textarea id="body" rows={12} {...register("body")} />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="featured_image_url">Featured image URL</Label>
-          <Input id="featured_image_url" {...register("featured_image_url")} />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="author_name">Author</Label>
-          <Input id="author_name" {...register("author_name")} />
-        </div>
         <div className="space-y-2">
           <Label htmlFor="location">Location</Label>
           <Input id="location" {...register("location")} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="event_date">Event date (events only)</Label>
-          <Input id="event_date" type="date" {...register("event_date")} />
+          <Label htmlFor="featured_image_url">Featured image URL</Label>
+          <Input id="featured_image_url" {...register("featured_image_url")} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="published_at">Publish date</Label>
-          <Input id="published_at" type="date" {...register("published_at")} />
+          <Label>Related project</Label>
+          <Select
+            value={watch("project_id") || NONE_VALUE}
+            onValueChange={(v) =>
+              setValue("project_id", !v || v === NONE_VALUE ? "" : v)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="None" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={NONE_VALUE}>None</SelectItem>
+              {projects.map((project) => (
+                <SelectItem key={project.id} value={project.id}>
+                  {project.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label>Thematic area</Label>
+          <Select
+            value={watch("thematic_area_id") || NONE_VALUE}
+            onValueChange={(v) =>
+              setValue("thematic_area_id", !v || v === NONE_VALUE ? "" : v)
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="None" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={NONE_VALUE}>None</SelectItem>
+              {thematicAreas.map((area) => (
+                <SelectItem key={area.id} value={area.id}>
+                  {area.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -216,7 +233,7 @@ export function PostForm({ post }: { post?: Post | null }) {
 
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={isSubmitting} className="bg-navy hover:bg-navy/90">
-          {isSubmitting ? "Saving..." : isEdit ? "Update article" : "Create article"}
+          {isSubmitting ? "Saving..." : isEdit ? "Update story" : "Create story"}
         </Button>
         {isEdit && (
           <Button type="button" variant="destructive" onClick={onDelete}>

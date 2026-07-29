@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getProjectBySlug } from "@/lib/data/queries";
+import { sanitizeHtml } from "@/lib/utils/sanitize";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { BreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { cn } from "@/lib/utils";
@@ -138,7 +139,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               {project.description ? (
                 <div
                   className="prose prose-lg mt-8 max-w-none text-body/80"
-                  dangerouslySetInnerHTML={{ __html: project.description }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(project.description) }}
                 />
               ) : (
                 <p className="mt-8 text-body/70">

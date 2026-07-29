@@ -9,6 +9,8 @@ import {
   BookOpen,
   MessageSquare,
   Users,
+  ArrowRight,
+  Plus,
 } from "lucide-react";
 
 async function getDashboardStats() {
@@ -49,19 +51,28 @@ export default async function AdminDashboardPage() {
   const stats = await getDashboardStats();
 
   const cards = [
-    { label: "Published Pages", value: stats.publishedPages, icon: FileText, href: "/admin/pages" },
-    { label: "Draft Pages", value: stats.draftPages, icon: FileText, href: "/admin/pages" },
-    { label: "Active Projects", value: stats.activeProjects, icon: FolderKanban, href: "/admin/projects" },
-    { label: "Completed Projects", value: stats.completedProjects, icon: FolderKanban, href: "/admin/projects" },
-    { label: "News & Insights", value: stats.posts, icon: Newspaper, href: "/admin/posts" },
-    { label: "Resources", value: stats.resources, icon: BookOpen, href: "/admin/resources" },
-    { label: "Unread Messages", value: stats.unreadMessages, icon: MessageSquare, href: "/admin/messages" },
-    { label: "Subscribers", value: stats.subscribers, icon: Users, href: "/admin/settings" },
+    { label: "Published Pages", value: stats.publishedPages, icon: FileText, href: "/admin/pages", tint: "bg-urban-blue/10 text-urban-blue" },
+    { label: "Draft Pages", value: stats.draftPages, icon: FileText, href: "/admin/pages", tint: "bg-navy/5 text-navy" },
+    { label: "Active Projects", value: stats.activeProjects, icon: FolderKanban, href: "/admin/projects", tint: "bg-poverty-green/10 text-poverty-green" },
+    { label: "Completed Projects", value: stats.completedProjects, icon: FolderKanban, href: "/admin/projects", tint: "bg-bright-blue/10 text-bright-blue" },
+    { label: "News & Insights", value: stats.posts, icon: Newspaper, href: "/admin/posts", tint: "bg-climate-gold/10 text-climate-gold" },
+    { label: "Resources", value: stats.resources, icon: BookOpen, href: "/admin/resources", tint: "bg-urban-blue/10 text-urban-blue" },
+    { label: "Unread Messages", value: stats.unreadMessages, icon: MessageSquare, href: "/admin/messages", tint: "bg-gold/15 text-climate-gold" },
+    { label: "Subscribers", value: stats.subscribers, icon: Users, href: "/admin/subscribers", tint: "bg-poverty-green/10 text-poverty-green" },
+  ];
+
+  const quickCreate = [
+    { label: "Write a news article", href: "/admin/posts/new" },
+    { label: "Add a project", href: "/admin/projects/new" },
+    { label: "Publish an impact story", href: "/admin/impact/new" },
+    { label: "Upload a resource", href: "/admin/resources/new" },
+    { label: "Add a team member", href: "/admin/team/new" },
+    { label: "Add a partner", href: "/admin/partners/new" },
   ];
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-navy">Dashboard</h1>
           <p className="text-muted-text">Overview of your website content.</p>
@@ -71,7 +82,10 @@ export default async function AdminDashboardPage() {
             <Link href="/admin/pages/new">New Page</Link>
           </Button>
           <Button asChild className="bg-navy hover:bg-navy/90">
-            <Link href="/admin/projects/new">New Project</Link>
+            <Link href="/admin/posts/new">
+              <Plus className="mr-1 h-4 w-4" />
+              New Post
+            </Link>
           </Button>
         </div>
       </div>
@@ -80,16 +94,22 @@ export default async function AdminDashboardPage() {
         {cards.map((card) => {
           const Icon = card.icon;
           return (
-            <Link key={card.label} href={card.href}>
-              <Card className="hover:border-urban-blue transition-colors">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-text">
-                    {card.label}
-                  </CardTitle>
-                  <Icon className="h-4 w-4 text-muted-text" />
-                </CardHeader>
-                <CardContent>
-                  <p className="text-3xl font-bold text-navy">{card.value}</p>
+            <Link key={card.label} href={card.href} className="group">
+              <Card className="h-full transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md group-hover:ring-1 group-hover:ring-urban-blue/30">
+                <CardContent className="flex items-center gap-4 p-5">
+                  <span
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${card.tint}`}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-2xl font-bold leading-tight text-navy">
+                      {card.value}
+                    </p>
+                    <p className="truncate text-sm text-muted-text">
+                      {card.label}
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
             </Link>
@@ -103,18 +123,19 @@ export default async function AdminDashboardPage() {
             <CardTitle className="text-navy">Quick Create</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3">
-            <Button asChild variant="outline" className="justify-start">
-              <Link href="/admin/posts/new">Write a news article</Link>
-            </Button>
-            <Button asChild variant="outline" className="justify-start">
-              <Link href="/admin/resources/new">Upload a resource</Link>
-            </Button>
-            <Button asChild variant="outline" className="justify-start">
-              <Link href="/admin/partners/new">Add a partner</Link>
-            </Button>
-            <Button asChild variant="outline" className="justify-start">
-              <Link href="/admin/team/new">Add a team member</Link>
-            </Button>
+            {quickCreate.map((item) => (
+              <Button
+                key={item.href}
+                asChild
+                variant="outline"
+                className="justify-between"
+              >
+                <Link href={item.href}>
+                  {item.label}
+                  <ArrowRight className="h-4 w-4 text-muted-text" />
+                </Link>
+              </Button>
+            ))}
           </CardContent>
         </Card>
 
@@ -124,9 +145,16 @@ export default async function AdminDashboardPage() {
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-text">
             <p>1. Connect your Supabase project using the environment variables.</p>
-            <p>2. Create the first super admin via the SQL snippet in the README.</p>
+            <p>
+              2. Run the migrations in <code>supabase/migrations</code>, then
+              create the first admin
+              with <code>supabase/scripts/make-first-admin.sql</code>.
+            </p>
             <p>3. Upload media to the media library before using images in content.</p>
-            <p>4. Edit the homepage sections from Pages → Home.</p>
+            <p>
+              4. Manage programmes under Thematic Areas, and publish stories and
+              metrics under Impact.
+            </p>
           </CardContent>
         </Card>
       </div>

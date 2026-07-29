@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getPostBySlug } from "@/lib/data/queries";
+import { sanitizeHtml } from "@/lib/utils/sanitize";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { BreadcrumbJsonLd, ArticleJsonLd } from "@/lib/seo/json-ld";
 import { Calendar, MapPin, ArrowLeft, User } from "lucide-react";
@@ -139,7 +140,7 @@ export default async function PostPage({ params }: PostPageProps) {
               {post.body ? (
                 <div
                   className="prose prose-lg mt-8 max-w-none text-body/80"
-                  dangerouslySetInnerHTML={{ __html: post.body }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.body) }}
                 />
               ) : (
                 <p className="mt-8 text-body/70">

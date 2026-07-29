@@ -63,20 +63,25 @@ export async function getAdminUser() {
 
     const { data, error } = await supabase
       .from("admin_users")
-      .select("role, is_active, profiles(full_name, avatar_url)")
+      .select("role, is_active")
       .eq("user_id", user.id)
       .single();
 
     if (error || !data?.is_active) return null;
 
+    // profiles has no FK to admin_users, so fetch it separately
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("full_name, avatar_url")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
     return {
       id: user.id,
       email: user.email,
       role: data.role,
-      full_name:
-        (data.profiles as { full_name?: string } | null)?.full_name || "",
-      avatar_url:
-        (data.profiles as { avatar_url?: string } | null)?.avatar_url || "",
+      full_name: profile?.full_name || "",
+      avatar_url: profile?.avatar_url || "",
     };
   } catch {
     // Supabase not configured / unreachable — treat as unauthenticated.

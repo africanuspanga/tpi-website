@@ -8,6 +8,7 @@ import {
   getFocusItems,
   getProjects,
 } from "@/lib/data/queries";
+import { sanitizeHtml } from "@/lib/utils/sanitize";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { BreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { cn } from "@/lib/utils";
@@ -114,7 +115,7 @@ export default async function ThematicAreaPage({
             {area.description ? (
               <div
                 className="prose prose-lg max-w-none text-body/80"
-                dangerouslySetInnerHTML={{ __html: area.description }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(area.description) }}
               />
             ) : (
               <p className="text-lg text-body/80">

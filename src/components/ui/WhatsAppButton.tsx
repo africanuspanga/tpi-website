@@ -24,7 +24,8 @@ export function WhatsAppButton() {
 
   // Avoid an SSR/CSR flash of the entrance animation.
   useEffect(() => {
-    setMounted(true);
+    const frame = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   return (

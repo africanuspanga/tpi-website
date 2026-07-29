@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm, type Resolver } from "react-hook-form";
+import dynamic from "next/dynamic";
+import { Controller, useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,13 @@ import { createProject, updateProject, deleteProject } from "@/actions/admin/pro
 import { toast } from "sonner";
 import type { Project, ThematicArea } from "@/types/supabase";
 
+// TipTap needs the browser; never render it on the server.
+const RichTextEditor = dynamic(
+  () =>
+    import("@/components/admin/RichTextEditor").then((m) => m.RichTextEditor),
+  { ssr: false }
+);
+
 interface ProjectFormProps {
   project?: (Project & { thematic_area_ids?: string[] }) | null;
   thematicAreas: ThematicArea[];
@@ -32,6 +40,7 @@ export function ProjectForm({ project, thematicAreas }: ProjectFormProps) {
 
   const {
     register,
+    control,
     handleSubmit,
     watch,
     setValue,
@@ -130,7 +139,17 @@ export function ProjectForm({ project, thematicAreas }: ProjectFormProps) {
 
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
-        <Textarea id="description" {...register("description")} rows={8} />
+        <Controller
+          control={control}
+          name="description"
+          render={({ field }) => (
+            <RichTextEditor
+              value={field.value ?? ""}
+              onChange={field.onChange}
+              placeholder="Describe the project..."
+            />
+          )}
+        />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">

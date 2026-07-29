@@ -29,7 +29,7 @@ function parseSdgs(raw: string | undefined): string[] {
     .filter(Boolean);
 }
 
-function toDb(values: ProjectFormValues) {
+function toDb(values: ProjectFormValues, existingPublishedAt?: string | null) {
   return {
     title: values.title,
     slug: values.slug,
@@ -47,7 +47,7 @@ function toDb(values: ProjectFormValues) {
     seo_description: values.seo_description || null,
     published_at:
       values.publication_status === "published"
-        ? new Date().toISOString()
+        ? existingPublishedAt || new Date().toISOString()
         : null,
   };
 }
@@ -124,7 +124,7 @@ export async function updateProject(id: string, values: ProjectFormValues) {
   const supabase = await createClient();
   const { data: existing } = await supabase.from("projects").select("*").eq("id", id).single();
 
-  const { error } = await supabase.from("projects").update(toDb(values)).eq("id", id);
+  const { error } = await supabase.from("projects").update(toDb(values, existing?.published_at)).eq("id", id);
 
   if (error) {
     return { success: false, message: error.message };

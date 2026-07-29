@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getImpactStoryBySlug } from "@/lib/data/queries";
+import { sanitizeHtml } from "@/lib/utils/sanitize";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { BreadcrumbJsonLd, ArticleJsonLd } from "@/lib/seo/json-ld";
 import { MapPin, ArrowLeft } from "lucide-react";
@@ -106,7 +107,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
               {story.body ? (
                 <div
                   className="prose prose-lg mt-8 max-w-none text-body/80"
-                  dangerouslySetInnerHTML={{ __html: story.body }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(story.body) }}
                 />
               ) : (
                 <p className="mt-8 text-body/70">

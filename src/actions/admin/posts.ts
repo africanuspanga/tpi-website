@@ -72,6 +72,7 @@ export async function createPost(values: PostFormValues) {
   await audit("create", data.id, undefined, values);
   revalidatePath("/admin/posts");
   revalidatePath("/news");
+  revalidatePath("/events");
   return { success: true, id: data.id };
 }
 
@@ -92,6 +93,7 @@ export async function updatePost(id: string, values: PostFormValues) {
   await audit("update", id, existing, values);
   revalidatePath("/admin/posts");
   revalidatePath("/news");
+  revalidatePath("/events");
   return { success: true };
 }
 
@@ -111,5 +113,6 @@ export async function deletePost(id: string) {
   await audit("delete", id, existing, undefined);
   revalidatePath("/admin/posts");
   revalidatePath("/news");
+  revalidatePath("/events");
   return { success: true };
 }

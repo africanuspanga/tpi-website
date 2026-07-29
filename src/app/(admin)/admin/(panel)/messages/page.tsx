@@ -1,10 +1,5 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { DataTable } from "@/components/admin/DataTable";
-import { deleteMessage, updateMessageStatus } from "@/actions/admin/messages";
+import { MessagesManager } from "@/components/admin/MessagesManager";
 import type { ContactMessage } from "@/types/supabase";
 
 async function getMessages() {
@@ -27,60 +22,7 @@ export default async function MessagesPage() {
         <p className="text-muted-text">Enquiries submitted via the website.</p>
       </div>
 
-      <DataTable
-        data={messages}
-        columns={[
-          {
-            key: "status",
-            header: "Status",
-            cell: (row) => <StatusBadge status={row.status} />,
-          },
-          {
-            key: "name",
-            header: "From",
-            cell: (row) => (
-              <div>
-                <p className="font-medium">{row.full_name}</p>
-                <p className="text-xs text-muted-text">{row.email}</p>
-              </div>
-            ),
-          },
-          {
-            key: "subject",
-            header: "Subject",
-            cell: (row) => (
-              <div>
-                <p className="font-medium">{row.subject}</p>
-                <p className="text-xs text-muted-text">{row.enquiry_type}</p>
-              </div>
-            ),
-          },
-          {
-            key: "date",
-            header: "Received",
-            cell: (row) => (
-              <span className="text-sm text-muted-text">
-                {new Date(row.created_at).toLocaleDateString()}
-              </span>
-            ),
-          },
-        ]}
-        onDelete={(row) => deleteMessage(row.id)}
-      />
+      <MessagesManager messages={messages} />
     </div>
-  );
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const styles: Record<string, string> = {
-    new: "bg-red-100 text-red-800",
-    in_progress: "bg-amber-100 text-amber-800",
-    resolved: "bg-green-100 text-green-800",
-    spam: "bg-gray-100 text-gray-800",
-  };
-  return (
-    <Badge variant="secondary" className={styles[status] || styles.new}>
-      {status.replace("_", " ")}
-    </Badge>
   );
 }

@@ -22,14 +22,23 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("admin_users")
-    .select("user_id, role, is_active, profiles(full_name)")
+    .select("user_id, role, is_active")
     .order("created_at", { ascending: false });
 
   if (error) throw error;
 
+  // profiles has no FK to admin_users, so fetch profiles separately
+  const userIds = (data || []).map((item) => item.user_id);
+  const { data: profiles } = userIds.length
+    ? await supabase.from("profiles").select("user_id, full_name").in("user_id", userIds)
+    : { data: [] };
+  const nameById = new Map(
+    (profiles || []).map((p) => [p.user_id, p.full_name] as const)
+  );
+
+  const adminClient = createAdminClient();
   const rows: AdminUserRow[] = [];
   for (const item of data || []) {
-    const adminClient = createAdminClient();
     const { data: userData, error: userError } = await adminClient.auth.admin.getUserById(
       item.user_id
     );
@@ -37,7 +46,7 @@ export async function getAdminUsers(): Promise<AdminUserRow[]> {
       user_id: item.user_id,
       role: item.role,
       is_active: item.is_active,
-      full_name: (item.profiles as { full_name?: string } | null)?.full_name || null,
+      full_name: nameById.get(item.user_id) || null,
       email: userError ? null : userData.user.email || null,
     });
   }

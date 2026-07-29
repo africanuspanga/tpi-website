@@ -9,7 +9,7 @@ import type { MediaAsset } from "@/types/supabase";
 const ALLOWED_MIME_TYPES = ["image/", "application/pdf"];
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
-async function audit(action: string, entityId: string | null, newData?: unknown) {
+async function audit(action: string, entityId: string | null, oldData?: unknown, newData?: unknown) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -19,7 +19,7 @@ async function audit(action: string, entityId: string | null, newData?: unknown)
     action,
     entity_type: "media_assets",
     entity_id: entityId,
-    old_data: null,
+    old_data: oldData || null,
     new_data: newData || null,
   });
 }
@@ -99,7 +99,7 @@ export async function uploadMedia(formData: FormData) {
     return { success: false, message: error.message };
   }
 
-  await audit("create", data.id, { file_name: file.name, file_url: fileUrl });
+  await audit("create", data.id, undefined, { file_name: file.name, file_url: fileUrl });
   revalidatePath("/admin/media");
   return { success: true, id: data.id };
 }
@@ -126,7 +126,7 @@ export async function deleteMediaAsset(id: string) {
     return { success: false, message: error.message };
   }
 
-  await audit("delete", id, asset);
+  await audit("delete", id, asset, undefined);
   revalidatePath("/admin/media");
   return { success: true };
 }

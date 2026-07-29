@@ -28,6 +28,25 @@ export async function updateMessageStatus(
   return { success: true };
 }
 
+export async function updateMessageNotes(id: string, notes: string) {
+  if (!(await canEditContent())) {
+    return { success: false, message: "Permission denied." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("contact_messages")
+    .update({ admin_notes: notes })
+    .eq("id", id);
+
+  if (error) {
+    return { success: false, message: error.message };
+  }
+
+  revalidatePath("/admin/messages");
+  return { success: true };
+}
+
 export async function deleteMessage(id: string) {
   if (!(await canEditContent())) {
     return { success: false, message: "Permission denied." };
