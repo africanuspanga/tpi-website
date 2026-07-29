@@ -5,10 +5,10 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getActiveTeamMembers } from "@/lib/data/queries";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { BreadcrumbJsonLd } from "@/lib/seo/json-ld";
-import { Download, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export const metadata = buildMetadata({
-  title: "About TPi",
+  title: "About Us",
   description:
     "Learn about TPi Tanzania, our mission, vision, values and approach to inclusive urban development.",
   path: "/about",
@@ -77,9 +77,9 @@ export default async function AboutPage() {
 
       {/* Hero */}
       <section className="bg-navy py-24 lg:py-32">
-        <div className="container-tpi">
-          <span className="label-eyebrow mb-4 block text-gold">About TPi</span>
-          <h1 className="heading-display max-w-4xl text-4xl text-white md:text-5xl lg:text-6xl">
+        <div className="container-tpi text-center">
+          <span className="label-eyebrow mb-4 block text-gold">About Us</span>
+          <h1 className="heading-display mx-auto max-w-4xl text-4xl text-white md:text-5xl lg:text-6xl">
             A national NGO advancing inclusive, sustainable and climate-responsive
             urban development in Tanzania.
           </h1>
@@ -89,42 +89,22 @@ export default async function AboutPage() {
       {/* Who We Are */}
       <section className="bg-white py-20 lg:py-28">
         <div className="container-tpi">
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-            <div>
-              <SectionHeader
-                eyebrow="Who We Are"
-                heading="Cities should be inclusive, safe and resilient."
-                body="TPi is a national non-governmental organization working in Tanzania to advance inclusive urban transformation, poverty reduction and climate resilience. We believe that every person—regardless of income, gender, age, disability or social status—deserves access to opportunities, services and dignity."
-              />
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Button asChild className="bg-navy text-white hover:bg-navy/90">
-                  <Link href="/what-we-do">
-                    Explore Our Work
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="border-navy text-navy hover:bg-navy/5"
-                >
-                  <Link href="/TPi_Organization_Profile.pdf" target="_blank">
-                    <Download className="mr-2 h-4 w-4" />
-                    Download Organization Profile
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl lg:aspect-square">
-              <Image
-                src="/community-development-meeting.jpg"
-                alt="Community discussion in Tanzania"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
+          <SectionHeader
+            eyebrow="Who We Are"
+            heading="Cities should be inclusive, safe and resilient."
+            body="TPi is a national non-governmental organization working in Tanzania to advance inclusive urban transformation, poverty reduction and climate resilience. We believe that every person—regardless of income, gender, age, disability or social status—deserves access to opportunities, services and dignity."
+            align="center"
+            className="mx-auto"
+          />
+        </div>
+        <div className="relative mt-12 h-[45vh] w-full overflow-hidden lg:mt-16 lg:h-[65vh]">
+          <Image
+            src="/community-development-meeting.jpg"
+            alt="Community discussion in Tanzania"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
       </section>
 
@@ -132,19 +112,19 @@ export default async function AboutPage() {
       <section className="bg-soft-bg py-20 lg:py-28">
         <div className="container-tpi">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
-            <div className="relative overflow-hidden rounded-2xl bg-navy p-8 text-white md:p-12">
+            <div className="relative overflow-hidden rounded-2xl bg-navy p-8 text-white md:p-10">
               <div className="absolute left-0 top-0 h-1.5 w-24 bg-gold" />
               <span className="label-eyebrow mb-4 block text-gold">Our Vision</span>
-              <h2 className="heading-display text-3xl text-white md:text-4xl">
+              <h2 className="heading-display text-justify text-2xl leading-snug text-white md:text-3xl">
                 Inclusive, resilient and poverty-free urban communities in Tanzania.
               </h2>
             </div>
-            <div className="relative overflow-hidden rounded-2xl bg-white p-8 md:p-12">
+            <div className="relative overflow-hidden rounded-2xl bg-white p-8 md:p-10">
               <div className="absolute left-0 top-0 h-1.5 w-24 bg-urban-blue" />
               <span className="label-eyebrow mb-4 block text-urban-blue">
                 Our Mission
               </span>
-              <h2 className="heading-display text-3xl text-navy md:text-4xl">
+              <h2 className="heading-display text-justify text-2xl leading-snug text-navy md:text-3xl">
                 To build inclusive, resilient and poverty-free urban communities
                 through community empowerment, policy change and innovative,
                 evidence-based solutions.

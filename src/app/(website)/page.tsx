@@ -1,17 +1,10 @@
 import { buildMetadata } from "@/lib/seo/metadata";
 import { Hero } from "@/components/sections/Hero";
 import { IntroSection } from "@/components/sections/IntroSection";
-import { VisionMission } from "@/components/sections/VisionMission";
-import { ThematicAreas } from "@/components/sections/ThematicAreas";
-import { FeaturedProjects } from "@/components/sections/FeaturedProjects";
-import { Approach } from "@/components/sections/Approach";
 import { TargetGroups } from "@/components/sections/TargetGroups";
-import { ImpactMetrics } from "@/components/sections/ImpactMetrics";
-import { SuccessStories } from "@/components/sections/SuccessStories";
-import { Partners } from "@/components/sections/Partners";
-import { BlogHighlights } from "@/components/sections/BlogHighlights";
 import { SdgAlignment } from "@/components/sections/SdgAlignment";
 import { FinalCta } from "@/components/sections/FinalCta";
+import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata = buildMetadata({});
 
@@ -20,15 +13,22 @@ export default function HomePage() {
     <>
       <Hero />
       <IntroSection />
-      <VisionMission />
-      <ThematicAreas />
-      <FeaturedProjects />
-      <Approach />
       <TargetGroups />
-      <ImpactMetrics />
-      <SuccessStories />
-      <Partners />
-      <BlogHighlights />
+
+      {/* Community statement */}
+      <section className="bg-white py-20 lg:py-28">
+        <div className="container-tpi text-center">
+          <Reveal>
+            <span className="mx-auto mb-8 block h-px w-16 bg-gold" />
+            <p className="heading-display mx-auto max-w-5xl text-2xl leading-snug text-navy md:text-3xl lg:text-4xl">
+              People are not beneficiaries at the end of a project. They are
+              partners from the beginning. TPi is grounded on participation,
+              equity and learning.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       <SdgAlignment />
       <FinalCta />
     </>

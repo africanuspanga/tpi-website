@@ -51,7 +51,7 @@ export function TargetGroups() {
     <section className="bg-navy py-20 text-white lg:py-28">
       <div className="container-tpi">
         <SectionHeader
-          eyebrow="Who We Work With"
+          eyebrow="Who Matters to Us"
           heading="Our work centres on people and institutions too often left out of urban planning."
           body="When the most excluded residents have voice and agency, cities improve for everyone."
           align="center"

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
 import {
   FacebookIcon,
@@ -31,45 +30,8 @@ export function Footer() {
   return (
     <footer className="bg-navy text-white">
       <div className="container-tpi py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <Link
-              href="/"
-              className="mb-6 inline-flex"
-              aria-label="TPi Tanzania — home"
-            >
-              <Image
-                src="/tpi-logo.png"
-                alt="TPi Tanzania"
-                width={1448}
-                height={1086}
-                className="h-20 w-auto object-contain brightness-0 invert"
-              />
-            </Link>
-            <p className="text-white/80 leading-relaxed max-w-sm mb-6">
-              Advancing inclusive urban transformation, poverty reduction and
-              climate resilience across Tanzania.
-            </p>
-            <div className="flex gap-3">
-              {[
-                { Icon: FacebookIcon, label: "Facebook" },
-                { Icon: XIcon, label: "X (Twitter)" },
-                { Icon: LinkedinIcon, label: "LinkedIn" },
-                { Icon: YoutubeIcon, label: "YouTube" },
-              ].map(({ Icon, label }) => (
-                <a
-                  key={label}
-                  href="#"
-                  className="h-10 w-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:bg-white hover:text-navy transition-colors"
-                  aria-label={label}
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div className="lg:col-span-2">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
             <h4 className="font-semibold mb-4 text-white">Explore</h4>
             <ul className="space-y-3">
               {footerLinks.explore.map((link) => (
@@ -85,7 +47,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-3">
+          <div>
             <h4 className="font-semibold mb-4 text-white">Organization</h4>
             <ul className="space-y-3">
               {footerLinks.organization.map((link) => (
@@ -101,7 +63,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-3">
+          <div>
             <h4 className="font-semibold mb-4 text-white">Contact</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm text-white/70">
@@ -121,6 +83,27 @@ export function Footer() {
                 </a>
               </li>
             </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-4 text-white">Follow Us</h4>
+            <div className="flex gap-3">
+              {[
+                { Icon: FacebookIcon, label: "Facebook" },
+                { Icon: XIcon, label: "X (Twitter)" },
+                { Icon: LinkedinIcon, label: "LinkedIn" },
+                { Icon: YoutubeIcon, label: "YouTube" },
+              ].map(({ Icon, label }) => (
+                <a
+                  key={label}
+                  href="#"
+                  className="h-10 w-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:bg-white hover:text-navy transition-colors"
+                  aria-label={label}
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
