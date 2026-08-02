@@ -1,4 +1,6 @@
 import { ContactForm } from "@/components/forms/ContactForm";
+import { getBlock } from "@/lib/content";
+import type { PageHeroContent } from "@/components/sections/PageHero";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { BreadcrumbJsonLd } from "@/lib/seo/json-ld";
@@ -19,6 +21,8 @@ export default async function ContactPage(props: {
 }) {
   const { enquiry } = await props.searchParams;
 
+  const hero = await getBlock<PageHeroContent>("contact", "hero");
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -30,15 +34,9 @@ export default async function ContactPage(props: {
 
       <section className="bg-navy py-28 text-white lg:py-36">
         <div className="container-tpi">
-          <span className="label-eyebrow mb-4 block text-gold">Contact</span>
-          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">
-            Start a conversation with TPi.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-            Whether you are a community, a local authority, a development partner
-            or a researcher, we would like to hear from you. Send us a message and
-            our team will respond promptly.
-          </p>
+          <span className="label-eyebrow mb-4 block text-gold">{hero.eyebrow}</span>
+          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">{hero.heading}</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">{hero.body}</p>
         </div>
       </section>
 

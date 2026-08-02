@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -136,10 +137,16 @@ export function ThematicAreaForm({ area }: { area?: ThematicArea | null }) {
             )}
           </div>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="hero_image_url">Hero image URL</Label>
-          <Input id="hero_image_url" {...register("hero_image_url")} />
-        </div>
+        <MediaUploadField
+          id="hero_image_url"
+          label="Hero image"
+          value={watch("hero_image_url") || ""}
+          onChange={(url) =>
+            setValue("hero_image_url", url, { shouldDirty: true })
+          }
+          accept="image/*"
+          folder="thematic"
+        />
         <div className="space-y-2">
           <Label htmlFor="sort_order">Sort order</Label>
           <Input id="sort_order" type="number" {...register("sort_order")} />

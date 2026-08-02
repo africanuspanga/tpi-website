@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -117,21 +118,25 @@ export function PageForm({ page }: PageFormProps) {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="hero_image_url">Hero Image URL</Label>
-          <Input id="hero_image_url" {...register("hero_image_url")} />
-          {errors.hero_image_url && (
-            <p className="text-sm text-destructive">{errors.hero_image_url.message}</p>
-          )}
-        </div>
+        <MediaUploadField
+          id="hero_image_url"
+          label="Hero image"
+          value={watch("hero_image_url") || ""}
+          onChange={(url) => setValue("hero_image_url", url, { shouldDirty: true })}
+          accept="image/*"
+          folder="pages"
+          help={errors.hero_image_url?.message}
+        />
 
-        <div className="space-y-2">
-          <Label htmlFor="og_image_url">OG Image URL</Label>
-          <Input id="og_image_url" {...register("og_image_url")} />
-          {errors.og_image_url && (
-            <p className="text-sm text-destructive">{errors.og_image_url.message}</p>
-          )}
-        </div>
+        <MediaUploadField
+          id="og_image_url"
+          label="Social share image"
+          value={watch("og_image_url") || ""}
+          onChange={(url) => setValue("og_image_url", url, { shouldDirty: true })}
+          accept="image/*"
+          folder="pages"
+          help={errors.og_image_url?.message}
+        />
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">

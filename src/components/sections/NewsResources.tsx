@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getPosts, getResources } from "@/lib/data/queries";
-import { Calendar, ArrowRight, Download, FileText } from "lucide-react";
+import { Calendar, ArrowRight, FileText } from "lucide-react";
 
 function formatDate(date?: string | null) {
   if (!date) return null;

@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { getBlock } from "@/lib/content";
+import type { PageHeroContent } from "@/components/sections/PageHero";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getProjects, getThematicAreas } from "@/lib/data/queries";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { BreadcrumbJsonLd } from "@/lib/seo/json-ld";
@@ -69,6 +70,8 @@ export default async function ProjectsPage(props: {
     return matchesArea && matchesStatus;
   });
 
+  const hero = await getBlock<PageHeroContent>("projects", "hero");
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -80,14 +83,9 @@ export default async function ProjectsPage(props: {
 
       <section className="bg-navy py-28 text-white lg:py-36">
         <div className="container-tpi">
-          <span className="label-eyebrow mb-4 block text-gold">Our Work</span>
-          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">
-            Projects
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-            A portfolio of community-led initiatives advancing inclusive cities,
-            poverty reduction and climate resilience across Tanzania.
-          </p>
+          <span className="label-eyebrow mb-4 block text-gold">{hero.eyebrow}</span>
+          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">{hero.heading}</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">{hero.body}</p>
         </div>
       </section>
 

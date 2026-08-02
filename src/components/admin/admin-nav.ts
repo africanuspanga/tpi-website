@@ -13,6 +13,7 @@ import {
   Mail,
   Settings,
   Shield,
+  Palette,
 } from "lucide-react";
 
 export const adminNavGroups = [
@@ -20,6 +21,7 @@ export const adminNavGroups = [
     label: "Content",
     items: [
       { label: "Dashboard", href: "/admin", icon: LayoutDashboard, exact: true },
+      { label: "Website Content", href: "/admin/content", icon: Palette },
       { label: "Pages", href: "/admin/pages", icon: FileText },
       { label: "Thematic Areas", href: "/admin/thematic-areas", icon: Layers },
       { label: "Projects", href: "/admin/projects", icon: FolderKanban },

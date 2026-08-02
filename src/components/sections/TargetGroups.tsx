@@ -6,77 +6,73 @@ import {
   Accessibility,
   Home,
   Landmark,
+  type LucideIcon,
 } from "lucide-react";
 
-const groups = [
-  {
-    title: "Residents of informal settlements",
-    description:
-      "Supporting people in unplanned neighbourhoods to secure services, tenure and a meaningful say in city decisions.",
-    image: "/community-water-point.jpg",
-    icon: Users,
-  },
-  {
-    title: "Women and youth",
-    description:
-      "Creating space, skills and economic opportunities for women and young people to lead urban change.",
-    image: "/women-entrepreneurs.jpg",
-    icon: Heart,
-  },
-  {
-    title: "Persons with disabilities",
-    description:
-      "Ensuring urban planning, services and infrastructure are accessible and responsive to diverse needs.",
-    image: "/community-development-meeting.jpg",
-    icon: Accessibility,
-  },
-  {
-    title: "Low-income urban households",
-    description:
-      "Working with families facing poverty to improve livelihoods, housing conditions and access to basic services.",
-    image: "/tpi-image-2.jpeg",
-    icon: Home,
-  },
-  {
-    title: "Local governments and urban authorities",
-    description:
-      "Strengthening the capacity, data and processes that make public institutions more inclusive and accountable.",
-    image: "/local-government-partnership.jpg",
-    icon: Landmark,
-  },
-];
+/**
+ * Icons are stored as names so they survive a round-trip through the database.
+ * Anything unrecognised falls back to `Users` rather than breaking the render.
+ */
+const ICONS: Record<string, LucideIcon> = {
+  users: Users,
+  heart: Heart,
+  accessibility: Accessibility,
+  home: Home,
+  landmark: Landmark,
+};
 
-export function TargetGroups() {
+export type TargetGroupItem = {
+  title: string;
+  description: string;
+  image: string;
+  icon: string;
+};
+
+export type TargetGroupsContent = {
+  eyebrow: string;
+  heading: string;
+  body: string;
+  items: TargetGroupItem[];
+};
+
+export function TargetGroups({ content }: { content: TargetGroupsContent }) {
+  const groups = content.items ?? [];
+  if (groups.length === 0) return null;
+
   return (
     <section className="bg-navy py-20 text-white lg:py-28">
       <div className="container-tpi">
         <SectionHeader
-          eyebrow="Who Matters to Us"
-          heading="Our work centres on people and institutions too often left out of urban planning."
-          body="When the most excluded residents have voice and agency, cities improve for everyone."
+          eyebrow={content.eyebrow}
+          heading={content.heading}
+          body={content.body}
           align="center"
           className="mx-auto mb-16 [&_h2]:text-white [&_p]:text-white/80"
         />
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {groups.map((group, index) => {
-            const Icon = group.icon;
+            const Icon = ICONS[group.icon?.toLowerCase()] ?? Users;
             const isWide = index === 0 || index === 3;
             return (
               <article
-                key={group.title}
+                key={`${group.title}-${index}`}
                 className={`group relative overflow-hidden rounded-2xl ${
                   isWide ? "sm:col-span-2 lg:col-span-1" : ""
                 }`}
               >
                 <div className="relative aspect-[4/5] overflow-hidden">
-                  <Image
-                    src={group.image}
-                    alt={group.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                  {group.image ? (
+                    <Image
+                      src={group.image}
+                      alt={group.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-navy-light" />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-transparent" />
                 </div>
 

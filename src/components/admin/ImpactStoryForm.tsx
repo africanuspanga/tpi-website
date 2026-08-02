@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -172,10 +173,16 @@ export function ImpactStoryForm({
           <Label htmlFor="location">Location</Label>
           <Input id="location" {...register("location")} />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="featured_image_url">Featured image URL</Label>
-          <Input id="featured_image_url" {...register("featured_image_url")} />
-        </div>
+        <MediaUploadField
+          id="featured_image_url"
+          label="Featured image"
+          value={watch("featured_image_url") || ""}
+          onChange={(url) =>
+            setValue("featured_image_url", url, { shouldDirty: true })
+          }
+          accept="image/*"
+          folder="impact"
+        />
         <div className="space-y-2">
           <Label>Related project</Label>
           <Select

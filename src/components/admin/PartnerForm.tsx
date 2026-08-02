@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -81,10 +82,16 @@ export function PartnerForm({ partner }: { partner?: Partner | null }) {
           </Label>
           <Input id="partner_type" {...register("partner_type")} />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="logo_url">Logo URL</Label>
-          <Input id="logo_url" {...register("logo_url")} />
-        </div>
+        <MediaUploadField
+          id="logo_url"
+          label="Logo"
+          value={watch("logo_url") || ""}
+          onChange={(url) =>
+            setValue("logo_url", url, { shouldDirty: true })
+          }
+          accept="image/*"
+          folder="partners"
+        />
         <div className="space-y-2">
           <Label htmlFor="website_url">Website URL</Label>
           <Input id="website_url" {...register("website_url")} />

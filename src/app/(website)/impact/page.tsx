@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getBlock } from "@/lib/content";
+import type { PageHeroContent } from "@/components/sections/PageHero";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +22,8 @@ export default async function ImpactPage() {
     getImpactStories(),
   ]);
 
+  const hero = await getBlock<PageHeroContent>("impact", "hero");
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -32,14 +36,9 @@ export default async function ImpactPage() {
       {/* Hero */}
       <section className="bg-navy py-28 text-white lg:py-36">
         <div className="container-tpi">
-          <span className="label-eyebrow mb-4 block text-gold">Our Impact</span>
-          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">
-            Change is visible in people, communities and institutions.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-            We measure success not by activities delivered, but by the lasting
-            difference our work makes in the lives of urban residents.
-          </p>
+          <span className="label-eyebrow mb-4 block text-gold">{hero.eyebrow}</span>
+          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">{hero.heading}</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">{hero.body}</p>
         </div>
       </section>
 

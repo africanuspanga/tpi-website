@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { resourceSchema, type ResourceFormValues } from "@/lib/validation/admin";
 import { generateSlug } from "@/lib/utils/slugs";
 import {
@@ -167,18 +168,34 @@ export function ResourceForm({ resource }: { resource?: Resource | null }) {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="file_url">File URL (uploaded document)</Label>
-          <Input id="file_url" {...register("file_url")} />
-        </div>
+        <MediaUploadField
+          id="file_url"
+          label="Document (PDF or Office file)"
+          value={watch("file_url") || ""}
+          onChange={(url) =>
+            setValue("file_url", url, { shouldDirty: true })
+          }
+          accept=".pdf,.doc,.docx,.xls,.xlsx,application/pdf"
+          folder="resources"
+          help="Upload the report itself. Readers download this file."
+        />
         <div className="space-y-2">
           <Label htmlFor="external_url">External URL</Label>
           <Input id="external_url" {...register("external_url")} />
+          <p className="text-xs text-muted-foreground">
+            Use instead of a file when the resource is hosted elsewhere.
+          </p>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="cover_image_url">Cover image URL</Label>
-          <Input id="cover_image_url" {...register("cover_image_url")} />
-        </div>
+        <MediaUploadField
+          id="cover_image_url"
+          label="Cover image"
+          value={watch("cover_image_url") || ""}
+          onChange={(url) =>
+            setValue("cover_image_url", url, { shouldDirty: true })
+          }
+          accept="image/*"
+          folder="resources/covers"
+        />
         <div className="space-y-2">
           <Label htmlFor="author">Author</Label>
           <Input id="author" {...register("author")} />

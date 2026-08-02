@@ -15,8 +15,13 @@ create index if not exists posts_post_type_status_idx
 create index if not exists posts_slug_idx
   on public.posts (slug);
 
+-- NOTE: `projects` has no `status` column — it uses `publication_status`
+-- (public.content_status) and `project_status` (public.project_status).
 create index if not exists projects_status_published_at_idx
-  on public.projects (status, published_at desc nulls last);
+  on public.projects (publication_status, published_at desc nulls last);
+
+create index if not exists projects_project_status_idx
+  on public.projects (project_status);
 
 create index if not exists projects_slug_idx
   on public.projects (slug);

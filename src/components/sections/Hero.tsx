@@ -4,45 +4,38 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
-const slides = [
-  {
-    src: "/hero/inclusive-urban-transformation.jpg",
-    title: "Inclusive Urban Transformation",
-    description: "Cities that work for everyone.",
-  },
-  {
-    src: "/hero/poverty-reduction.jpg",
-    title: "Poverty Reduction",
-    description: "Dignity and opportunity for all.",
-  },
-  {
-    src: "/hero/climate-resilience.jpg",
-    title: "Climate Resilience",
-    description: "Communities ready for tomorrow.",
-  },
-];
+export type HeroSlide = {
+  image: string;
+  title: string;
+  description: string;
+};
 
 const SLIDE_DURATION = 6000;
 
-export function Hero() {
+export function Hero({ slides }: { slides: HeroSlide[] }) {
   const [index, setIndex] = useState(0);
   const reduce = useReducedMotion();
+  const count = slides.length;
 
   useEffect(() => {
+    if (count <= 1) return;
     const timer = setInterval(() => {
-      setIndex((current) => (current + 1) % slides.length);
+      setIndex((current) => (current + 1) % count);
     }, SLIDE_DURATION);
     return () => clearInterval(timer);
-  }, []);
+  }, [count]);
 
-  const slide = slides[index];
+  // An editor can remove slides while this component is mounted, so never index
+  // past the end of the current list.
+  const slide = slides[Math.min(index, count - 1)];
+  if (!slide) return null;
 
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-navy">
       {/* Sliding photos */}
       <AnimatePresence>
         <motion.div
-          key={slide.src}
+          key={slide.image}
           initial={{ opacity: 0, scale: reduce ? 1 : 1.04 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
@@ -50,7 +43,7 @@ export function Hero() {
           className="absolute inset-0"
         >
           <Image
-            src={slide.src}
+            src={slide.image}
             alt={slide.title}
             fill
             priority
@@ -79,28 +72,32 @@ export function Hero() {
             <h1 className="heading-display max-w-5xl text-4xl leading-[1.08] text-white drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl">
               {slide.title}
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-base text-white/90 drop-shadow sm:text-lg md:text-xl">
-              {slide.description}
-            </p>
+            {slide.description ? (
+              <p className="mx-auto mt-4 max-w-xl text-base text-white/90 drop-shadow sm:text-lg md:text-xl">
+                {slide.description}
+              </p>
+            ) : null}
           </motion.div>
         </AnimatePresence>
 
         {/* Slide indicators */}
-        <div className="mt-10 flex justify-center gap-2">
-          {slides.map((item, itemIndex) => (
-            <button
-              key={item.src}
-              type="button"
-              onClick={() => setIndex(itemIndex)}
-              aria-label={`Show slide: ${item.title}`}
-              className={`h-1 rounded-full transition-all duration-500 ${
-                itemIndex === index
-                  ? "w-10 bg-gold"
-                  : "w-5 bg-white/40 hover:bg-white/70"
-              }`}
-            />
-          ))}
-        </div>
+        {count > 1 ? (
+          <div className="mt-10 flex justify-center gap-2">
+            {slides.map((item, itemIndex) => (
+              <button
+                key={`${item.image}-${itemIndex}`}
+                type="button"
+                onClick={() => setIndex(itemIndex)}
+                aria-label={`Show slide: ${item.title}`}
+                className={`h-1 rounded-full transition-all duration-500 ${
+                  itemIndex === index
+                    ? "w-10 bg-gold"
+                    : "w-5 bg-white/40 hover:bg-white/70"
+                }`}
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );

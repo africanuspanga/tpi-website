@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import dynamic from "next/dynamic";
 import { Controller, useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -181,10 +182,16 @@ export function PostForm({ post }: { post?: Post | null }) {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="featured_image_url">Featured image URL</Label>
-          <Input id="featured_image_url" {...register("featured_image_url")} />
-        </div>
+        <MediaUploadField
+          id="featured_image_url"
+          label="Featured image"
+          value={watch("featured_image_url") || ""}
+          onChange={(url) =>
+            setValue("featured_image_url", url, { shouldDirty: true })
+          }
+          accept="image/*"
+          folder="posts"
+        />
         <div className="space-y-2">
           <Label htmlFor="author_name">Author</Label>
           <Input id="author_name" {...register("author_name")} />

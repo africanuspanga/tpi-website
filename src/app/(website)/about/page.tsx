@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { getBlock } from "@/lib/content";
+import type { PageHeroContent } from "@/components/sections/PageHero";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -66,6 +68,8 @@ const thematicAreas = [
 export default async function AboutPage() {
   const team = await getActiveTeamMembers();
 
+  const hero = await getBlock<PageHeroContent>("about", "hero");
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -78,11 +82,8 @@ export default async function AboutPage() {
       {/* Hero */}
       <section className="bg-navy py-24 lg:py-32">
         <div className="container-tpi text-center">
-          <span className="label-eyebrow mb-4 block text-gold">About Us</span>
-          <h1 className="heading-display mx-auto max-w-4xl text-4xl text-white md:text-5xl lg:text-6xl">
-            A national NGO advancing inclusive, sustainable and climate-responsive
-            urban development in Tanzania.
-          </h1>
+          <span className="label-eyebrow mb-4 block text-gold">{hero.eyebrow}</span>
+          <h1 className="heading-display mx-auto max-w-4xl text-4xl text-white md:text-5xl lg:text-6xl">{hero.heading}</h1>
         </div>
       </section>
 

@@ -2,7 +2,17 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/Reveal";
 
-export function FinalCta() {
+export type FinalCtaContent = {
+  eyebrow: string;
+  heading: string;
+  body: string;
+  primaryLabel: string;
+  primaryHref: string;
+  secondaryLabel: string;
+  secondaryHref: string;
+};
+
+export function FinalCta({ content }: { content: FinalCtaContent }) {
   return (
     <section className="relative overflow-hidden bg-navy py-24 lg:py-32">
       {/* Ambient colour glows */}
@@ -15,32 +25,43 @@ export function FinalCta() {
 
       <div className="container-tpi relative z-10 text-center">
         <Reveal>
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
-            Partner With TPi
-          </span>
+          {content.eyebrow ? (
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+              {content.eyebrow}
+            </span>
+          ) : null}
           <h2 className="heading-display mx-auto max-w-4xl text-4xl leading-tight text-white md:text-5xl lg:text-6xl">
-            Let us build more inclusive and resilient cities together.
+            {content.heading}
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80">
-            Partner with TPi to support communities, strengthen institutions and
-            develop practical solutions for Tanzania&apos;s urban future.
-          </p>
+          {content.body ? (
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80">
+              {content.body}
+            </p>
+          ) : null}
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Button
-              asChild
-              size="lg"
-              className="h-12 bg-gold px-8 text-base text-navy shadow-lg shadow-gold/20 hover:bg-gold/90"
-            >
-              <Link href="/get-involved">Become a Partner</Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-12 border-white/40 bg-white/5 px-8 text-base text-white backdrop-blur-sm hover:bg-white/15 hover:text-white"
-            >
-              <Link href="/contact">Contact TPi</Link>
-            </Button>
+            {content.primaryLabel ? (
+              <Button
+                asChild
+                size="lg"
+                className="h-12 bg-gold px-8 text-base text-navy shadow-lg shadow-gold/20 hover:bg-gold/90"
+              >
+                <Link href={content.primaryHref || "/get-involved"}>
+                  {content.primaryLabel}
+                </Link>
+              </Button>
+            ) : null}
+            {content.secondaryLabel ? (
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-12 border-white/40 bg-white/5 px-8 text-base text-white backdrop-blur-sm hover:bg-white/15 hover:text-white"
+              >
+                <Link href={content.secondaryHref || "/contact"}>
+                  {content.secondaryLabel}
+                </Link>
+              </Button>
+            ) : null}
           </div>
         </Reveal>
       </div>

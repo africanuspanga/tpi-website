@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getBlock } from "@/lib/content";
+import type { PageHeroContent } from "@/components/sections/PageHero";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { getResources } from "@/lib/data/queries";
@@ -39,6 +41,8 @@ export default async function ResourcesPage(props: {
   const { type } = await props.searchParams;
   const resources = await getResources(type);
 
+  const hero = await getBlock<PageHeroContent>("resources", "hero");
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -50,17 +54,9 @@ export default async function ResourcesPage(props: {
 
       <section className="bg-navy py-28 text-white lg:py-36">
         <div className="container-tpi">
-          <span className="label-eyebrow mb-4 block text-gold">
-            Knowledge &amp; Resources
-          </span>
-          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">
-            Evidence for better cities.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-            Explore our reports, publications and analysis — plus stories of
-            change and the impact of our work advancing inclusive and
-            climate-responsive urban development.
-          </p>
+          <span className="label-eyebrow mb-4 block text-gold">{hero.eyebrow}</span>
+          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">{hero.heading}</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">{hero.body}</p>
         </div>
       </section>
 

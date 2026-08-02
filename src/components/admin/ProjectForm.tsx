@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import dynamic from "next/dynamic";
 import { Controller, useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -157,13 +158,15 @@ export function ProjectForm({ project, thematicAreas }: ProjectFormProps) {
           <Label htmlFor="location">Location</Label>
           <Input id="location" {...register("location")} />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="hero_image_url">Hero Image URL</Label>
-          <Input id="hero_image_url" {...register("hero_image_url")} />
-          {errors.hero_image_url && (
-            <p className="text-sm text-destructive">{errors.hero_image_url.message}</p>
-          )}
-        </div>
+        <MediaUploadField
+          id="hero_image_url"
+          label="Hero image"
+          value={watch("hero_image_url") || ""}
+          onChange={(url) => setValue("hero_image_url", url, { shouldDirty: true })}
+          accept="image/*"
+          folder="projects"
+          help={errors.hero_image_url?.message}
+        />
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">

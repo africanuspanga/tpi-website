@@ -6,8 +6,16 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { canEditContent } from "@/lib/utils/roles";
 import type { MediaAsset } from "@/types/supabase";
 
-const ALLOWED_MIME_TYPES = ["image/", "application/pdf"];
-const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+// Reports and publications are the point of the Resources section, so the
+// limit matches the storage bucket rather than being stricter than it.
+const ALLOWED_MIME_TYPES = [
+  "image/",
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument",
+  "application/vnd.ms-excel",
+];
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB — matches the bucket limit
 
 async function audit(action: string, entityId: string | null, oldData?: unknown, newData?: unknown) {
   const supabase = await createClient();
@@ -48,11 +56,14 @@ export async function uploadMedia(formData: FormData) {
   }
 
   if (!ALLOWED_MIME_TYPES.some((type) => file.type.startsWith(type))) {
-    return { success: false, message: "Only images and PDF files are allowed." };
+    return {
+      success: false,
+      message: "Only images, PDFs and Office documents are allowed.",
+    };
   }
 
   if (file.size > MAX_FILE_SIZE) {
-    return { success: false, message: "File size must be less than 20MB." };
+    return { success: false, message: "File size must be less than 50MB." };
   }
 
   const supabase = await createClient();
@@ -101,7 +112,16 @@ export async function uploadMedia(formData: FormData) {
 
   await audit("create", data.id, undefined, { file_name: file.name, file_url: fileUrl });
   revalidatePath("/admin/media");
-  return { success: true, id: data.id };
+  // `url` lets inline upload fields (content blocks, resource PDFs, hero
+  // images) drop the uploaded file straight into the field they belong to.
+  return {
+    success: true,
+    id: data.id,
+    url: fileUrl,
+    fileName: file.name,
+    mimeType: file.type,
+    fileSize: file.size,
+  };
 }
 
 export async function deleteMediaAsset(id: string) {

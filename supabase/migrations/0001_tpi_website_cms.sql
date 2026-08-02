@@ -528,38 +528,45 @@ alter table public.contact_messages enable row level security;
 alter table public.newsletter_subscribers enable row level security;
 alter table public.audit_logs enable row level security;
 
+drop policy if exists "Users can view their own profile" on public.profiles;
 create policy "Users can view their own profile"
 on public.profiles
 for select
 using (user_id = auth.uid() or public.can_view_admin());
 
+drop policy if exists "Users can update their own profile" on public.profiles;
 create policy "Users can update their own profile"
 on public.profiles
 for update
 using (user_id = auth.uid())
 with check (user_id = auth.uid());
 
+drop policy if exists "Admin users can view their own role" on public.admin_users;
 create policy "Admin users can view their own role"
 on public.admin_users
 for select
 using (user_id = auth.uid() or public.is_super_admin());
 
+drop policy if exists "Super admins manage admin users" on public.admin_users;
 create policy "Super admins manage admin users"
 on public.admin_users
 for all
 using (public.is_super_admin())
 with check (public.is_super_admin());
 
+drop policy if exists "Public can view public settings" on public.site_settings;
 create policy "Public can view public settings"
 on public.site_settings
 for select
 using (is_public = true);
 
+drop policy if exists "Public can view navigation" on public.navigation_items;
 create policy "Public can view navigation"
 on public.navigation_items
 for select
 using (is_active = true);
 
+drop policy if exists "Public can view published pages" on public.pages;
 create policy "Public can view published pages"
 on public.pages
 for select
@@ -568,6 +575,7 @@ using (
   and (published_at is null or published_at <= now())
 );
 
+drop policy if exists "Public can view enabled page sections" on public.page_sections;
 create policy "Public can view enabled page sections"
 on public.page_sections
 for select
@@ -585,11 +593,13 @@ using (
   )
 );
 
+drop policy if exists "Public can view thematic areas" on public.thematic_areas;
 create policy "Public can view thematic areas"
 on public.thematic_areas
 for select
 using (is_active = true);
 
+drop policy if exists "Public can view thematic focus items" on public.thematic_focus_items;
 create policy "Public can view thematic focus items"
 on public.thematic_focus_items
 for select
@@ -604,6 +614,7 @@ using (
   )
 );
 
+drop policy if exists "Public can view published projects" on public.projects;
 create policy "Public can view published projects"
 on public.projects
 for select
@@ -612,6 +623,7 @@ using (
   and (published_at is null or published_at <= now())
 );
 
+drop policy if exists "Public can view project themes" on public.project_themes;
 create policy "Public can view project themes"
 on public.project_themes
 for select
@@ -624,11 +636,13 @@ using (
   )
 );
 
+drop policy if exists "Public can view active metrics" on public.impact_metrics;
 create policy "Public can view active metrics"
 on public.impact_metrics
 for select
 using (is_active = true);
 
+drop policy if exists "Public can view published stories" on public.impact_stories;
 create policy "Public can view published stories"
 on public.impact_stories
 for select
@@ -637,16 +651,19 @@ using (
   and (published_at is null or published_at <= now())
 );
 
+drop policy if exists "Public can view active team members" on public.team_members;
 create policy "Public can view active team members"
 on public.team_members
 for select
 using (is_active = true);
 
+drop policy if exists "Public can view active partners" on public.partners;
 create policy "Public can view active partners"
 on public.partners
 for select
 using (is_active = true);
 
+drop policy if exists "Public can view published posts" on public.posts;
 create policy "Public can view published posts"
 on public.posts
 for select
@@ -655,6 +672,7 @@ using (
   and (published_at is null or published_at <= now())
 );
 
+drop policy if exists "Public can view published resources" on public.resources;
 create policy "Public can view published resources"
 on public.resources
 for select
@@ -663,16 +681,19 @@ using (
   and (published_at is null or published_at <= now())
 );
 
+drop policy if exists "Public can view published testimonials" on public.testimonials;
 create policy "Public can view published testimonials"
 on public.testimonials
 for select
 using (is_published = true);
 
+drop policy if exists "Public can view public media" on public.media_assets;
 create policy "Public can view public media"
 on public.media_assets
 for select
 using (is_public = true);
 
+drop policy if exists "Anyone can submit a contact message" on public.contact_messages;
 create policy "Anyone can submit a contact message"
 on public.contact_messages
 for insert
@@ -682,6 +703,7 @@ with check (
   and char_length(message) between 10 and 5000
 );
 
+drop policy if exists "Anyone can subscribe" on public.newsletter_subscribers;
 create policy "Anyone can subscribe"
 on public.newsletter_subscribers
 for insert
@@ -715,9 +737,21 @@ begin
   ]
   loop
     execute format(
+      'drop policy if exists %I on public.%I',
+      table_name || '_admin_select',
+      table_name
+    );
+
+    execute format(
       'create policy %I on public.%I
        for select using (public.can_view_admin())',
       table_name || '_admin_select',
+      table_name
+    );
+
+    execute format(
+      'drop policy if exists %I on public.%I',
+      table_name || '_admin_write',
       table_name
     );
 
@@ -732,11 +766,13 @@ begin
   end loop;
 end $$;
 
+drop policy if exists "Admins can view audit logs" on public.audit_logs;
 create policy "Admins can view audit logs"
 on public.audit_logs
 for select
 using (public.can_view_admin());
 
+drop policy if exists "Editors can create audit logs" on public.audit_logs;
 create policy "Editors can create audit logs"
 on public.audit_logs
 for insert
@@ -766,11 +802,13 @@ do update set
   public = excluded.public,
   file_size_limit = excluded.file_size_limit;
 
+drop policy if exists "Public can read public media files" on storage.objects;
 create policy "Public can read public media files"
 on storage.objects
 for select
 using (bucket_id = 'public-media');
 
+drop policy if exists "Admins can manage public media files" on storage.objects;
 create policy "Admins can manage public media files"
 on storage.objects
 for all
@@ -783,6 +821,7 @@ with check (
   and public.can_edit_content()
 );
 
+drop policy if exists "Admins can manage private documents" on storage.objects;
 create policy "Admins can manage private documents"
 on storage.objects
 for all

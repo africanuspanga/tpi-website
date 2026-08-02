@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -94,10 +95,16 @@ export function TeamMemberForm({ member }: { member?: TeamMember | null }) {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="photo_url">Photo URL</Label>
-          <Input id="photo_url" {...register("photo_url")} />
-        </div>
+        <MediaUploadField
+          id="photo_url"
+          label="Photo"
+          value={watch("photo_url") || ""}
+          onChange={(url) =>
+            setValue("photo_url", url, { shouldDirty: true })
+          }
+          accept="image/*"
+          folder="team"
+        />
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input id="email" type="email" {...register("email")} />

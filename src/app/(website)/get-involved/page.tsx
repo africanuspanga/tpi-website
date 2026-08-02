@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getBlock } from "@/lib/content";
+import type { PageHeroContent } from "@/components/sections/PageHero";
 import { Button } from "@/components/ui/button";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { BreadcrumbJsonLd } from "@/lib/seo/json-ld";
@@ -58,7 +60,9 @@ const ways = [
   },
 ];
 
-export default function GetInvolvedPage() {
+export default async function GetInvolvedPage() {
+  const hero = await getBlock<PageHeroContent>("get-involved", "hero");
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -70,16 +74,9 @@ export default function GetInvolvedPage() {
 
       <section className="bg-navy py-28 text-white lg:py-36">
         <div className="container-tpi">
-          <span className="label-eyebrow mb-4 block text-gold">
-            Get Involved
-          </span>
-          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">
-            Let us build more inclusive and resilient cities together.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-            Partner with TPi to support communities, strengthen institutions and
-            develop practical solutions for Tanzania&apos;s urban future.
-          </p>
+          <span className="label-eyebrow mb-4 block text-gold">{hero.eyebrow}</span>
+          <h1 className="heading-display text-4xl text-white md:text-5xl lg:text-6xl">{hero.heading}</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">{hero.body}</p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Button asChild className="bg-gold px-6 text-navy hover:bg-gold/90">
               <Link href="/contact?enquiry=Partnership">Become a Partner</Link>

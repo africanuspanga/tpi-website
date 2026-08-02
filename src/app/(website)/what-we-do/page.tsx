@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getBlock } from "@/lib/content";
+import type { PageHeroContent } from "@/components/sections/PageHero";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getThematicAreas, getFocusItems } from "@/lib/data/queries";
@@ -103,6 +105,8 @@ async function FocusList({ area }: { area: ThematicArea }) {
 export default async function WhatWeDoPage() {
   const areas = await getThematicAreas();
 
+  const hero = await getBlock<PageHeroContent>("what-we-do", "hero");
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -116,14 +120,9 @@ export default async function WhatWeDoPage() {
       <section className="relative bg-navy py-28 text-white lg:py-36">
         <div className="absolute inset-0 bg-[url('/tpi-image-1.jpeg')] bg-cover bg-center opacity-20" />
         <div className="container-tpi relative z-10">
-          <span className="label-eyebrow mb-4 block text-gold">What We Do</span>
-          <h1 className="heading-display max-w-3xl text-4xl text-white md:text-5xl lg:text-6xl">
-            Inclusive cities, poverty reduction and climate resilience.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-            Our programmes connect people, evidence and institutions to address
-            the urban challenges that matter most to excluded residents.
-          </p>
+          <span className="label-eyebrow mb-4 block text-gold">{hero.eyebrow}</span>
+          <h1 className="heading-display max-w-3xl text-4xl text-white md:text-5xl lg:text-6xl">{hero.heading}</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">{hero.body}</p>
         </div>
       </section>
 
