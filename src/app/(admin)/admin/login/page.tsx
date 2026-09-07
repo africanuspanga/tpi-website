@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getAdminUser } from "@/actions/auth";
 import { LoginForm } from "@/components/admin/LoginForm";
+
+export const metadata: Metadata = {
+  title: "Sign in | TPi Admin",
+  robots: { index: false, follow: false, nocache: true },
+};
 
 export default async function LoginPage() {
   const user = await getAdminUser();

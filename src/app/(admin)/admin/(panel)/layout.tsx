@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getAdminUser } from "@/actions/auth";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+
+// robots.txt already disallows /admin, but a disallowed URL can still be
+// indexed if something links to it — this makes the exclusion explicit.
+export const metadata: Metadata = {
+  title: "TPi Admin",
+  robots: { index: false, follow: false, nocache: true },
+};
 
 export default async function AdminPanelLayout({
   children,

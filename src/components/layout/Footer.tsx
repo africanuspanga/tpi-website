@@ -1,11 +1,19 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { getBlock } from "@/lib/content";
 import {
   FacebookIcon,
   XIcon,
   LinkedinIcon,
   YoutubeIcon,
 } from "@/components/ui/SocialIcons";
+
+type SocialLinks = {
+  linkedin?: string;
+  twitter?: string;
+  facebook?: string;
+  youtube?: string;
+};
 
 const footerLinks = {
   explore: [
@@ -26,7 +34,19 @@ const footerLinks = {
   ],
 };
 
-export function Footer() {
+export async function Footer() {
+  // The admin already exposes these under Site → Social links; they used to be
+  // rendered as href="#", which is a dead link on every page for crawlers.
+  const social = await getBlock<SocialLinks>("site", "social");
+  const socialLinks = [
+    { Icon: FacebookIcon, label: "Facebook", href: social.facebook },
+    { Icon: XIcon, label: "X (Twitter)", href: social.twitter },
+    { Icon: LinkedinIcon, label: "LinkedIn", href: social.linkedin },
+    { Icon: YoutubeIcon, label: "YouTube", href: social.youtube },
+  ].filter((item): item is typeof item & { href: string } =>
+    Boolean(item.href && item.href.startsWith("http"))
+  );
+
   return (
     <footer className="border-t border-white/10 bg-navy text-white">
       <div className="container-tpi py-16 lg:py-20">
@@ -85,26 +105,25 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-semibold mb-4 text-white">Follow Us</h4>
-            <div className="flex gap-3">
-              {[
-                { Icon: FacebookIcon, label: "Facebook" },
-                { Icon: XIcon, label: "X (Twitter)" },
-                { Icon: LinkedinIcon, label: "LinkedIn" },
-                { Icon: YoutubeIcon, label: "YouTube" },
-              ].map(({ Icon, label }) => (
-                <a
-                  key={label}
-                  href="#"
-                  className="h-10 w-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:bg-white hover:text-navy transition-colors"
-                  aria-label={label}
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
+          {socialLinks.length > 0 ? (
+            <div>
+              <h4 className="font-semibold mb-4 text-white">Follow Us</h4>
+              <div className="flex gap-3">
+                {socialLinks.map(({ Icon, label, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer me"
+                    className="h-10 w-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:bg-white hover:text-navy transition-colors"
+                    aria-label={label}
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">

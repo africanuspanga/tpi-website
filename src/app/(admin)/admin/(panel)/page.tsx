@@ -11,7 +11,13 @@ import {
   Users,
   ArrowRight,
   Plus,
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
 } from "lucide-react";
+
+// The dashboard reflects live data, so never serve it from a build-time cache.
+export const dynamic = "force-dynamic";
 
 async function getDashboardStats() {
   const supabase = await createClient();
@@ -47,8 +53,98 @@ async function getDashboardStats() {
   };
 }
 
+type CheckState = "ok" | "fail" | "warn";
+
+type Check = {
+  label: string;
+  state: CheckState;
+  detail: string;
+};
+
+/**
+ * Live environment check.
+ *
+ * This replaces the old static "Getting Started" checklist, which always read
+ * as "Supabase is not connected yet" even on a fully wired deployment. Every
+ * line below is an actual probe against the running environment, so what the
+ * card says is what is really true for this deployment.
+ */
+async function getSystemChecks(): Promise<Check[]> {
+  const checks: Check[] = [];
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !anonKey) {
+    checks.push({
+      label: "Supabase",
+      state: "fail",
+      detail:
+        "NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY are not set for this environment.",
+    });
+  } else {
+    // A real round-trip, not just an env-var presence check.
+    let dbDetail = "";
+    let dbOk = false;
+    try {
+      const supabase = await createClient();
+      const { error } = await supabase.from("pages").select("id").limit(1);
+      dbOk = !error;
+      dbDetail = error
+        ? error.message
+        : `Connected to ${new URL(url).hostname}`;
+    } catch (err) {
+      dbDetail = err instanceof Error ? err.message : "Unreachable";
+    }
+
+    checks.push({
+      label: "Supabase database",
+      state: dbOk ? "ok" : "fail",
+      detail: dbDetail,
+    });
+  }
+
+  checks.push({
+    label: "Service role key",
+    state: serviceKey ? "ok" : "fail",
+    detail: serviceKey
+      ? "Set — media uploads and user management will work."
+      : "SUPABASE_SERVICE_ROLE_KEY is missing. Media uploads and user management will fail.",
+  });
+
+  checks.push({
+    label: "Email notifications",
+    state: process.env.RESEND_API_KEY ? "ok" : "warn",
+    detail: process.env.RESEND_API_KEY
+      ? `Sending to ${process.env.EMAIL_NOTIFICATION_ADDRESS || "info@TPi.or.tz"}`
+      : "RESEND_API_KEY is missing. Contact enquiries are still saved, but no email is sent.",
+  });
+
+  checks.push({
+    label: "Spam protection",
+    state: process.env.TURNSTILE_SECRET_KEY ? "ok" : "warn",
+    detail: process.env.TURNSTILE_SECRET_KEY
+      ? "Turnstile is verifying form submissions."
+      : "TURNSTILE_SECRET_KEY is missing. Public forms accept submissions without a bot check.",
+  });
+
+  checks.push({
+    label: "Public site URL",
+    state: process.env.NEXT_PUBLIC_SITE_URL ? "ok" : "warn",
+    detail:
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      "NEXT_PUBLIC_SITE_URL is not set. SEO tags fall back to https://www.tpi.or.tz.",
+  });
+
+  return checks;
+}
+
 export default async function AdminDashboardPage() {
-  const stats = await getDashboardStats();
+  const [stats, checks] = await Promise.all([
+    getDashboardStats(),
+    getSystemChecks(),
+  ]);
 
   const cards = [
     { label: "Published Pages", value: stats.publishedPages, icon: FileText, href: "/admin/pages", tint: "bg-urban-blue/10 text-urban-blue" },
@@ -141,20 +237,35 @@ export default async function AdminDashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-navy">Getting Started</CardTitle>
+            <CardTitle className="text-navy">System Status</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm text-muted-text">
-            <p>1. Connect your Supabase project using the environment variables.</p>
-            <p>
-              2. Run the migrations in <code>supabase/migrations</code>, then
-              create the first admin
-              with <code>supabase/scripts/make-first-admin.sql</code>.
-            </p>
-            <p>3. Upload media to the media library before using images in content.</p>
-            <p>
-              4. Manage programmes under Thematic Areas, and publish stories and
-              metrics under Impact.
-            </p>
+          <CardContent className="space-y-3 text-sm">
+            {checks.map((check) => {
+              const Icon =
+                check.state === "ok"
+                  ? CheckCircle2
+                  : check.state === "warn"
+                    ? AlertTriangle
+                    : XCircle;
+              const tone =
+                check.state === "ok"
+                  ? "text-poverty-green"
+                  : check.state === "warn"
+                    ? "text-climate-gold"
+                    : "text-destructive";
+
+              return (
+                <div key={check.label} className="flex items-start gap-3">
+                  <Icon className={`mt-0.5 h-4 w-4 shrink-0 ${tone}`} />
+                  <div className="min-w-0">
+                    <p className="font-medium text-navy">{check.label}</p>
+                    <p className="break-words text-muted-text">
+                      {check.detail}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </CardContent>
         </Card>
       </div>

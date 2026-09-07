@@ -1,5 +1,15 @@
+import { getBlock } from "@/lib/content";
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.tpi.or.tz";
+
+type SocialLinks = {
+  linkedin?: string;
+  twitter?: string;
+  facebook?: string;
+  instagram?: string;
+  youtube?: string;
+};
 
 function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
@@ -10,7 +20,19 @@ function JsonLd({ data }: { data: Record<string, unknown> }) {
   );
 }
 
-export function OrganizationJsonLd() {
+export async function OrganizationJsonLd() {
+  // `sameAs` is what lets Google tie this site to its social profiles in the
+  // knowledge panel, so it reads the same CMS block the footer renders from
+  // rather than being a hardcoded empty array.
+  const social = await getBlock<SocialLinks>("site", "social");
+  const sameAs = [
+    social.linkedin,
+    social.twitter,
+    social.facebook,
+    social.instagram,
+    social.youtube,
+  ].filter((url): url is string => Boolean(url && url.startsWith("http")));
+
   return (
     <JsonLd
       data={{
@@ -36,7 +58,22 @@ export function OrganizationJsonLd() {
           contactType: "General Enquiries",
           availableLanguage: ["English", "Swahili"],
         },
-        sameAs: [],
+        sameAs,
+      }}
+    />
+  );
+}
+
+export function WebSiteJsonLd() {
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "TPi Tanzania",
+        url: SITE_URL,
+        inLanguage: "en",
+        publisher: { "@type": "NGO", name: "TPi Tanzania" },
       }}
     />
   );
