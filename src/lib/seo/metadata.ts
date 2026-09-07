@@ -49,8 +49,21 @@ export function buildMetadata(input: SeoInput = {}): Metadata {
       description,
       images: ogImage ? [ogImage] : undefined,
     },
+    // A page-level `robots` replaces the root one outright, so the googleBot
+    // directives are repeated here — without them Google falls back to a
+    // small image preview and a truncated snippet on every real page.
     robots: input.noIndex
       ? { index: false, follow: false }
-      : { index: true, follow: true },
+      : {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+            "max-video-preview": -1,
+          },
+        },
   };
 }
